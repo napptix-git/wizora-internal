@@ -45,9 +45,11 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r border-gray-200 bg-white">
       <SidebarHeader className="p-6">
-        <h1 className="text-2xl font-bold bg-gradient-wizora bg-clip-text text-transparent font-gulfs">
-          WIZORA
-        </h1>
+        <img 
+          src="/lovable-uploads/90b46b0c-2812-4d9c-9364-fb334c5e6ce2.png" 
+          alt="WIZORA Logo" 
+          className="h-8" 
+        />
       </SidebarHeader>
       
       <SidebarContent className="px-4">
