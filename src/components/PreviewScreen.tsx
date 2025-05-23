@@ -13,7 +13,11 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
       {/* Header Banner */}
       <div className="bg-[#4C36FF] text-white p-4 flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold font-gulfs">WIZORA</h1>
+          <img 
+            src="/lovable-uploads/c05f9ec3-7bfd-4382-ae4b-194d12966e19.png" 
+            alt="WIZORA Logo" 
+            className="h-8" 
+          />
           <span className="ml-4 text-sm opacity-70">Preview Mode</span>
         </div>
         <Button 

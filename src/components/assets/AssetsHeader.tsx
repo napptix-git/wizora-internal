@@ -6,11 +6,6 @@ export const AssetsHeader = () => {
     <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md mb-6 px-8 py-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <img 
-            src="/lovable-uploads/70d07a7b-2745-48c7-a3ac-550181ac6682.png" 
-            alt="WIZORA Logo" 
-            className="h-8" 
-          />
           <h1 className="text-2xl font-bold text-gray-900">Customize Assets</h1>
         </div>
         <div className="flex items-center space-x-2">
