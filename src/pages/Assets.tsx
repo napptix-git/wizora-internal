@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import PreviewScreen from "@/components/PreviewScreen"
 import IPhoneFrame from "@/components/ui/iphone-frame"
+import { AppSidebar } from "@/components/AppSidebar"
 
 const Assets = () => {
   const [activeTab, setActiveTab] = useState("assets")
@@ -72,184 +74,192 @@ const Assets = () => {
       </div>
 
       <div className="flex gap-6">
-        {/* Left Panel - Combined area with island box styling */}
-        <div className="w-1/3">
-          <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md h-[650px] overflow-hidden">
-            <Tabs 
-              defaultValue="assets" 
-              className="w-full h-full"
-              value={activeTab}
-              onValueChange={setActiveTab}
-            >
-              <TabsList className="grid grid-cols-2 px-4 pt-4">
-                <TabsTrigger value="assets" className="data-[state=active]:bg-blue-100 data-[state=active]:text-[#4C36FF]">Assets</TabsTrigger>
-                <TabsTrigger value="extras" className="data-[state=active]:bg-blue-100 data-[state=active]:text-[#4C36FF]">Extras</TabsTrigger>
-              </TabsList>
-              
-              <ScrollArea className="h-[600px] px-4 py-4">
-                <TabsContent value="assets" className="space-y-4 pr-4 mt-0">
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <div className="flex justify-between items-center mb-2">
-                      <Label className="font-medium">Background</Label>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full flex items-center justify-center border border-gray-300"
-                      onClick={() => handleImageUpload('background')}
-                    >
-                      <UploadIcon className="mr-2 h-4 w-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <div className="flex justify-between items-center mb-2">
-                      <Label className="font-medium">Front Image</Label>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full flex items-center justify-center border border-gray-300"
-                      onClick={() => handleImageUpload('frontImage')}
-                    >
-                      <UploadIcon className="mr-2 h-4 w-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <div className="flex justify-between items-center mb-2">
-                      <Label className="font-medium">Left Image</Label>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full flex items-center justify-center border border-gray-300"
-                      onClick={() => handleImageUpload('leftImage')}
-                    >
-                      <UploadIcon className="mr-2 h-4 w-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <div className="flex justify-between items-center mb-2">
-                      <Label className="font-medium">Rear Image</Label>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full flex items-center justify-center border border-gray-300"
-                      onClick={() => handleImageUpload('rearImage')}
-                    >
-                      <UploadIcon className="mr-2 h-4 w-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <div className="flex justify-between items-center mb-2">
-                      <Label className="font-medium">Right Image</Label>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full flex items-center justify-center border border-gray-300"
-                      onClick={() => handleImageUpload('rightImage')}
-                    >
-                      <UploadIcon className="mr-2 h-4 w-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="extras" className="mt-0 pr-4">
-                  <div className="p-4 bg-gray-50 rounded-lg border border-[#4C36FF]">
-                    <h3 className="font-medium mb-2">Additional Settings</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="cta-text">CTA Button Text</Label>
-                        <Input id="cta-text" placeholder="Enter CTA text" />
-                      </div>
-                      <div>
-                        <Label htmlFor="headline">Headline</Label>
-                        <Input id="headline" placeholder="Enter headline" />
-                      </div>
-                      <div>
-                        <Label htmlFor="description">Description</Label>
-                        <Input id="description" placeholder="Enter description" />
-                      </div>
-                    </div>
-                  </div>
-                </TabsContent>
-              </ScrollArea>
-            </Tabs>
-          </div>
+        {/* Sidebar Menu */}
+        <div className="w-1/4">
+          <AppSidebar />
         </div>
 
-        {/* Center Preview */}
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md p-8 flex flex-col items-center justify-center">
-            <div className="relative">
-              <IPhoneFrame>
-                {/* Example TELMORE ad preview - Using a pink striped background */}
-                <div className="flex-1 bg-pink-100 relative overflow-hidden">
-                  <div className="absolute inset-0 flex flex-col">
-                    <div className="w-full h-full bg-pink-100 flex flex-col items-center">
-                      {/* Stripe pattern */}
-                      <div className="absolute inset-0">
-                        {Array.from({ length: 12 }).map((_, i) => (
-                          <div 
-                            key={i} 
-                            className="h-16 bg-pink-200"
-                            style={{ marginTop: `${i * 32}px` }}
-                          ></div>
-                        ))}
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="z-10 w-full flex flex-col items-center mt-8">
-                        <div className="text-blue-700 font-bold text-xl tracking-widest mb-8">
-                          T E L M O R E
-                        </div>
-                        
-                        <div className="bg-yellow-400 w-64 h-64 flex items-center justify-center">
-                          {/* This would be replaced by the user's uploaded image */}
-                          <div className="text-xl">👐 Sample image placeholder</div>
-                        </div>
-                        
-                        <div className="mt-8">
-                          <Button className="bg-cyan-400 text-blue-900 hover:bg-cyan-500 px-6 py-2 rounded-sm font-medium">
-                            SE HER HVORDAN
+        {/* Main Content */}
+        <div className="flex-1">
+          <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden">
+            <div className="flex">
+              {/* Left Panel - Assets Options */}
+              <div className="w-1/3 border-r border-gray-200">
+                <Tabs 
+                  defaultValue="assets" 
+                  className="w-full h-full"
+                  value={activeTab}
+                  onValueChange={setActiveTab}
+                >
+                  <TabsList className="grid grid-cols-2 px-4 pt-4">
+                    <TabsTrigger value="assets" className="data-[state=active]:bg-blue-100 data-[state=active]:text-[#4C36FF]">Assets</TabsTrigger>
+                    <TabsTrigger value="extras" className="data-[state=active]:bg-blue-100 data-[state=active]:text-[#4C36FF]">Extras</TabsTrigger>
+                  </TabsList>
+                  
+                  <ScrollArea className="h-[600px] px-4 py-4">
+                    <TabsContent value="assets" className="space-y-4 pr-4 mt-0">
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="font-medium">Background</Label>
+                          <Button variant="ghost" size="sm" className="h-8 px-2">
+                            <ExternalLink className="h-4 w-4" />
                           </Button>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className="w-full flex items-center justify-center border border-gray-300"
+                          onClick={() => handleImageUpload('background')}
+                        >
+                          <UploadIcon className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="font-medium">Front Image</Label>
+                          <Button variant="ghost" size="sm" className="h-8 px-2">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className="w-full flex items-center justify-center border border-gray-300"
+                          onClick={() => handleImageUpload('frontImage')}
+                        >
+                          <UploadIcon className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="font-medium">Left Image</Label>
+                          <Button variant="ghost" size="sm" className="h-8 px-2">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className="w-full flex items-center justify-center border border-gray-300"
+                          onClick={() => handleImageUpload('leftImage')}
+                        >
+                          <UploadIcon className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="font-medium">Rear Image</Label>
+                          <Button variant="ghost" size="sm" className="h-8 px-2">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className="w-full flex items-center justify-center border border-gray-300"
+                          onClick={() => handleImageUpload('rearImage')}
+                        >
+                          <UploadIcon className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <Label className="font-medium">Right Image</Label>
+                          <Button variant="ghost" size="sm" className="h-8 px-2">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          className="w-full flex items-center justify-center border border-gray-300"
+                          onClick={() => handleImageUpload('rightImage')}
+                        >
+                          <UploadIcon className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="extras" className="mt-0 pr-4">
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-medium mb-2">Additional Settings</h3>
+                        <div className="space-y-4">
+                          <div>
+                            <Label htmlFor="cta-text">CTA Button Text</Label>
+                            <Input id="cta-text" placeholder="Enter CTA text" />
+                          </div>
+                          <div>
+                            <Label htmlFor="headline">Headline</Label>
+                            <Input id="headline" placeholder="Enter headline" />
+                          </div>
+                          <div>
+                            <Label htmlFor="description">Description</Label>
+                            <Input id="description" placeholder="Enter description" />
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </ScrollArea>
+                </Tabs>
+              </div>
+
+              {/* Center Preview */}
+              <div className="flex-1 flex flex-col items-center justify-center p-8">
+                <div className="relative">
+                  <IPhoneFrame>
+                    {/* Example TELMORE ad preview - Using a pink striped background */}
+                    <div className="flex-1 bg-pink-100 relative overflow-hidden">
+                      <div className="absolute inset-0 flex flex-col">
+                        <div className="w-full h-full bg-pink-100 flex flex-col items-center">
+                          {/* Stripe pattern */}
+                          <div className="absolute inset-0">
+                            {Array.from({ length: 12 }).map((_, i) => (
+                              <div 
+                                key={i} 
+                                className="h-16 bg-pink-200"
+                                style={{ marginTop: `${i * 32}px` }}
+                              ></div>
+                            ))}
+                          </div>
+                          
+                          {/* Content */}
+                          <div className="z-10 w-full flex flex-col items-center mt-8">
+                            <div className="text-blue-700 font-bold text-xl tracking-widest mb-8">
+                              T E L M O R E
+                            </div>
+                            
+                            <div className="bg-yellow-400 w-64 h-64 flex items-center justify-center">
+                              {/* This would be replaced by the user's uploaded image */}
+                              <div className="text-xl">👐 Sample image placeholder</div>
+                            </div>
+                            
+                            <div className="mt-8">
+                              <Button className="bg-cyan-400 text-blue-900 hover:bg-cyan-500 px-6 py-2 rounded-sm font-medium">
+                                SE HER HVORDAN
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </IPhoneFrame>
+
+                  {/* Preview button only */}
+                  <div className="mt-8 flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      className="border-[#4C36FF] text-[#4C36FF] hover:bg-[#4C36FF] hover:text-white px-8 py-2 rounded-lg font-medium"
+                      onClick={handlePreview}
+                    >
+                      Preview Creative
+                    </Button>
                   </div>
                 </div>
-              </IPhoneFrame>
-            </div>
-
-            {/* Preview button only */}
-            <div className="mt-8">
-              <Button 
-                variant="outline" 
-                className="border-[#4C36FF] text-[#4C36FF] hover:bg-[#4C36FF] hover:text-white px-8 py-2 rounded-lg font-medium"
-                onClick={handlePreview}
-              >
-                Preview Creative
-              </Button>
+              </div>
             </div>
           </div>
         </div>

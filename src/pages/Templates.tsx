@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import IPhoneFrame from "@/components/ui/iphone-frame"
+import { AppSidebar } from "@/components/AppSidebar"
 
 const templates = [
   {
@@ -105,6 +106,11 @@ const Templates = () => {
       </div>
 
       <div className="flex gap-6">
+        {/* Sidebar Menu */}
+        <div className="w-1/4">
+          <AppSidebar />
+        </div>
+        
         {/* Template Selection - Left tray with island box styling */}
         <div className="w-1/3">
           <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md h-[650px] overflow-hidden">
@@ -188,24 +194,20 @@ const Templates = () => {
                       {/* Christmas decorations */}
                       <div className="absolute top-4 left-4 text-white text-2xl">❄️</div>
                       <div className="absolute top-4 right-4 text-white text-2xl">🎄</div>
-                      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-white text-xl">
-                        🎅 🧦 🧦 🧦 🎁
+                      
+                      {/* Content */}
+                      <div className="flex items-center justify-center h-full">
+                        <div className="bg-yellow-400 w-64 h-64 flex items-center justify-center">
+                          <div className="text-6xl">🙌</div>
+                        </div>
                       </div>
-
-                      {/* Game area */}
-                      <div className="absolute top-24 left-1/2 transform -translate-x-1/2 w-48 h-64 bg-yellow-400 rounded-lg flex items-center justify-center">
-                        <div className="text-6xl">🙌</div>
-                      </div>
-
-                      {/* Action button */}
+                      
+                      {/* CTA Button */}
                       <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
                         <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
                           SE HER HVORDAN
                         </Button>
                       </div>
-
-                      {/* Bottom decoration */}
-                      <div className="absolute bottom-8 left-4 text-2xl">🎄</div>
                     </>
                   )}
                   
