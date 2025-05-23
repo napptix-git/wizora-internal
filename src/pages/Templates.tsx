@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -6,6 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import IPhoneFrame from "@/components/ui/iphone-frame"
 
 const templates = [
   {
@@ -88,9 +89,9 @@ const Templates = () => {
   const currentTemplate = templates.find(t => t.id === selectedTemplate) || templates[0]
 
   return (
-    <div className="min-h-screen bg-wizora-background font-product">
+    <div className="min-h-screen bg-wizora-background font-product p-6">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
+      <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md mb-6 px-8 py-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-900">Select a Layout</h1>
           <div className="flex items-center space-x-2">
@@ -103,66 +104,60 @@ const Templates = () => {
         </div>
       </div>
 
-      <div className="flex">
-        {/* Template Selection - Left tray without popup styling */}
-        <div className="w-1/3 p-8 space-y-4 bg-white border-r border-[#4C36FF]">
-          {templates.map((template) => (
-            <Card 
-              key={template.id}
-              className={`cursor-pointer transition-all duration-200 hover:shadow-md border ${
-                selectedTemplate === template.id 
-                  ? template.featured
-                    ? 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gradient-wizora text-white'
-                    : 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gray-100'
-                  : 'hover:bg-gray-50 bg-white border-gray-200'
-              }`}
-              onClick={() => setSelectedTemplate(template.id)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-2xl">{template.preview}</span>
-                    <div>
-                      <h3 className={`font-medium ${
-                        selectedTemplate === template.id && template.featured ? 'text-white' : 'text-gray-900'
-                      }`}>
-                        {template.name}
-                      </h3>
-                      <p className={`text-sm ${
-                        selectedTemplate === template.id && template.featured ? 'text-blue-100' : 'text-gray-500'
-                      }`}>
-                        {template.description}
-                      </p>
-                    </div>
-                  </div>
-                  <Badge 
-                    variant={selectedTemplate === template.id && template.featured ? "secondary" : "outline"}
-                    className="text-xs"
+      <div className="flex gap-6">
+        {/* Template Selection - Left tray with island box styling */}
+        <div className="w-1/3">
+          <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md h-[650px] overflow-hidden">
+            <ScrollArea className="h-full px-4 py-4">
+              <div className="space-y-4 pr-4">
+                {templates.map((template) => (
+                  <Card 
+                    key={template.id}
+                    className={`cursor-pointer transition-all duration-200 hover:shadow-md border ${
+                      selectedTemplate === template.id 
+                        ? 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gradient-wizora text-white'
+                        : 'hover:bg-gray-50 bg-white border-gray-200'
+                    }`}
+                    onClick={() => setSelectedTemplate(template.id)}
                   >
-                    {template.category}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">{template.preview}</span>
+                          <div>
+                            <h3 className={`font-medium ${
+                              selectedTemplate === template.id ? 'text-white' : 'text-gray-900'
+                            }`}>
+                              {template.name}
+                            </h3>
+                            <p className={`text-sm ${
+                              selectedTemplate === template.id ? 'text-blue-100' : 'text-gray-500'
+                            }`}>
+                              {template.description}
+                            </p>
+                          </div>
+                        </div>
+                        <Badge 
+                          variant={selectedTemplate === template.id ? "secondary" : "outline"}
+                          className="text-xs"
+                        >
+                          {template.category}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
         </div>
 
-        {/* Mobile Preview */}
-        <div className="flex-1 p-8 flex flex-col items-center justify-center">
-          <div className="relative">
-            {/* Phone Frame */}
-            <div className="w-80 h-[600px] bg-black rounded-[3rem] p-2 shadow-2xl">
-              <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
-                {/* Status Bar */}
-                <div className="h-6 bg-gray-100 flex items-center justify-center">
-                  <div className="flex space-x-1">
-                    <div className="w-4 h-2 bg-gray-400 rounded-full"></div>
-                    <div className="w-4 h-2 bg-gray-400 rounded-full"></div>
-                    <div className="w-4 h-2 bg-gray-400 rounded-full"></div>
-                  </div>
-                </div>
-
-                {/* Game Preview Area - Show different previews based on selected template */}
+        {/* Mobile Preview - iPhone style */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md p-8 flex flex-col items-center justify-center">
+            <div className="relative">
+              <IPhoneFrame>
+                {/* Game Preview Area */}
                 <div className={`flex-1 ${previewBackground} relative overflow-hidden`}>
                   {selectedTemplate === 1 && (
                     <div className="flex items-center justify-center h-full">
@@ -226,24 +221,17 @@ const Templates = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Navigation Bar */}
-                <div className="h-16 bg-white border-t border-gray-200 flex items-center justify-center space-x-8">
-                  <button className="p-2">←</button>
-                  <button className="p-2">🏠</button>
-                  <button className="p-2">➕</button>
-                </div>
+              </IPhoneFrame>
+              
+              {/* Use button */}
+              <div className="mt-6 flex justify-center">
+                <Button 
+                  onClick={handleUse}
+                  className="bg-gradient-wizora hover:opacity-90 text-white px-8 py-2 rounded-lg font-medium"
+                >
+                  USE
+                </Button>
               </div>
-            </div>
-            
-            {/* Use button */}
-            <div className="mt-6 flex justify-center">
-              <Button 
-                onClick={handleUse}
-                className="bg-gradient-wizora hover:opacity-90 text-white px-8 py-2 rounded-lg font-medium"
-              >
-                USE
-              </Button>
             </div>
           </div>
         </div>
