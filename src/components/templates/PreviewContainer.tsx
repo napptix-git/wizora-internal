@@ -28,7 +28,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
   }
 
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md p-8 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center h-full">
       <div className="relative">
         <IPhoneFrame>
           {/* Game Preview Area */}

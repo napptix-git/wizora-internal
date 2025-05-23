@@ -15,7 +15,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   setSelectedTemplate
 }) => {
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md h-[650px] overflow-hidden">
+    <div className="h-full overflow-hidden">
       <ScrollArea className="h-full px-4 py-4">
         <div className="space-y-4 pr-4">
           {templates.map((template) => (

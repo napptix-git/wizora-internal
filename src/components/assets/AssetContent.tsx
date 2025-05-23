@@ -14,10 +14,10 @@ export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) =>
   const [activeTab, setActiveTab] = useState("assets")
 
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden">
-      <div className="flex">
+    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden h-full">
+      <div className="flex h-full">
         {/* Left Panel - Assets Options */}
-        <div className="w-1/3 border-r border-gray-200">
+        <div className="w-1/3 border-r border-gray-200 h-full">
           <Tabs 
             defaultValue="assets" 
             className="w-full h-full"
@@ -29,11 +29,11 @@ export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) =>
               <TabsTrigger value="extras" className="data-[state=active]:bg-blue-100 data-[state=active]:text-[#4C36FF]">Extras</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="assets" className="mt-0">
+            <TabsContent value="assets" className="mt-0 h-full">
               <AssetUploadPanel onImageUpload={onImageUpload} />
             </TabsContent>
             
-            <TabsContent value="extras" className="mt-0 pr-4">
+            <TabsContent value="extras" className="mt-0 pr-4 h-full">
               <ExtrasPanel />
             </TabsContent>
           </Tabs>

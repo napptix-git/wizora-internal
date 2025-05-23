@@ -1,6 +1,5 @@
 
 import { useState } from "react"
-import { AppSidebar } from "@/components/AppSidebar"
 import { Header } from "@/components/templates/Header"
 import { TemplateSelector } from "@/components/templates/TemplateSelector"
 import { PreviewContainer } from "@/components/templates/PreviewContainer"
@@ -17,28 +16,26 @@ const Templates = () => {
     <div className="min-h-screen bg-wizora-background font-product p-6">
       <Header />
 
-      <div className="flex gap-6">
-        {/* Sidebar Menu */}
-        <div className="w-1/4">
-          <AppSidebar />
-        </div>
-        
-        {/* Template Selection */}
-        <div className="w-1/3">
-          <TemplateSelector 
-            templates={templates}
-            selectedTemplate={selectedTemplate}
-            setSelectedTemplate={setSelectedTemplate}
-          />
-        </div>
+      {/* Single container for template selection and preview */}
+      <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden" style={{ height: 'calc(100vh - 200px)' }}>
+        <div className="flex h-full">
+          {/* Template Selection */}
+          <div className="w-1/2 border-r border-gray-200">
+            <TemplateSelector 
+              templates={templates}
+              selectedTemplate={selectedTemplate}
+              setSelectedTemplate={setSelectedTemplate}
+            />
+          </div>
 
-        {/* Mobile Preview */}
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <PreviewContainer 
-            selectedTemplate={selectedTemplate}
-            templates={templates}
-            previewBackground={previewBackground}
-          />
+          {/* Mobile Preview */}
+          <div className="w-1/2 flex flex-col items-center justify-center p-8">
+            <PreviewContainer 
+              selectedTemplate={selectedTemplate}
+              templates={templates}
+              previewBackground={previewBackground}
+            />
+          </div>
         </div>
       </div>
     </div>

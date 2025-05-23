@@ -1,7 +1,6 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { AppSidebar } from "@/components/AppSidebar"
 import PreviewScreen from "@/components/PreviewScreen"
 import { AssetsHeader } from "@/components/assets/AssetsHeader"
 import { AssetContent } from "@/components/assets/AssetContent"
@@ -47,19 +46,12 @@ const Assets = () => {
       {/* Header */}
       <AssetsHeader />
 
-      <div className="flex gap-6">
-        {/* Sidebar Menu */}
-        <div className="w-1/4">
-          <AppSidebar />
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1">
-          <AssetContent 
-            onImageUpload={handleImageUpload} 
-            onPreview={handlePreview} 
-          />
-        </div>
+      {/* Single container for the entire content */}
+      <div style={{ height: 'calc(100vh - 200px)' }}>
+        <AssetContent 
+          onImageUpload={handleImageUpload} 
+          onPreview={handlePreview} 
+        />
       </div>
     </div>
   )
