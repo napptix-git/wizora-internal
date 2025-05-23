@@ -13,39 +13,44 @@ import {
 } from "@/components/ui/sidebar"
 import { Home, FolderOpen, Users, Settings, LogOut, Database } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router-dom"
-
-const menuItems = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "My Creatives",
-    url: "/dashboard/creatives",
-    icon: FolderOpen,
-    active: true,
-  },
-  {
-    title: "Users",
-    url: "/dashboard/users",
-    icon: Users,
-  },
-  {
-    title: "Repository",
-    url: "/dashboard/repository",
-    icon: Database,
-  },
-]
+import { useNavigate, useLocation } from "react-router-dom"
 
 export function AppSidebar() {
   const navigate = useNavigate()
+  const location = useLocation()
   
   const handleLogout = () => {
     // Handle logout logic here
     navigate("/login")
   }
+  
+  // Determine which menu item should be active based on current route
+  const menuItems = [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: Home,
+      active: location.pathname === "/dashboard"
+    },
+    {
+      title: "My Creatives",
+      url: "/dashboard/creatives",
+      icon: FolderOpen,
+      active: location.pathname === "/dashboard/creatives"
+    },
+    {
+      title: "Users",
+      url: "/dashboard/users",
+      icon: Users,
+      active: location.pathname === "/dashboard/users"
+    },
+    {
+      title: "Repository",
+      url: "/dashboard/repository",
+      icon: Database,
+      active: location.pathname === "/dashboard/repository"
+    },
+  ]
   
   return (
     <Sidebar className="border-r border-gray-200 bg-white">
@@ -83,7 +88,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 mt-auto">
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 font-product">
             ACCOUNT

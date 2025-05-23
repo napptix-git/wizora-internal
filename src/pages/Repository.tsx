@@ -54,35 +54,38 @@ const Repository = () => {
   return (
     <div className="min-h-screen bg-wizora-background font-product">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">Asset Repository</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>📖 Documentation</span>
-              <span>🎧 Support</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
-              <div>
-                <div className="text-sm font-medium">Anushka Bhavsar</div>
-                <div className="text-xs text-gray-500">Tech</div>
+      <div className="px-8 py-6">
+        <Card className="shadow-md border border-[#4C36FF] mb-6">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-2xl font-bold text-gray-900">Asset Repository</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <span>📖 Documentation</span>
+                  <span>🎧 Support</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
+                  <div>
+                    <div className="text-sm font-medium">Anushka Bhavsar</div>
+                    <div className="text-xs text-gray-500">Tech</div>
+                  </div>
+                </div>
+                <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload Assets
+                </Button>
               </div>
             </div>
-            <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Assets
-            </Button>
-          </div>
-        </div>
+          </CardHeader>
+        </Card>
       </div>
 
       {/* Main Content */}
-      <div className="px-8 py-8">
-        {/* File Explorer Interface */}
-        <Card className="shadow-sm bg-white border border-[#4C36FF]">
+      <div className="px-8 pb-8">
+        <Card className="shadow-sm bg-white border border-[#4C36FF] min-h-[calc(100vh-180px)]">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold">File Explorer</CardTitle>
@@ -104,11 +107,11 @@ const Repository = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex h-96">
+            <div className="flex h-[calc(100vh-280px)]">
               {/* Left Panel - Folders */}
               <div className="w-1/3 border-r border-gray-200 pr-4">
                 <h3 className="font-medium text-gray-900 mb-4">Folders</h3>
-                <ScrollArea className="h-80">
+                <ScrollArea className="h-[calc(100vh-320px)]">
                   <div className="space-y-2">
                     {filteredFolders.map((folder) => (
                       <div 
@@ -151,7 +154,7 @@ const Repository = () => {
                   )}
                 </div>
                 
-                <ScrollArea className="h-72">
+                <ScrollArea className="h-[calc(100vh-380px)]">
                   {selectedFolder ? (
                     <div className="grid grid-cols-4 gap-4">
                       {folders.find(f => f.name === selectedFolder)?.files.map((file) => (

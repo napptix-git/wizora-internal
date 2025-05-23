@@ -143,59 +143,63 @@ const Creatives = () => {
   return (
     <div className="min-h-screen bg-wizora-background font-product">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">My Creatives</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>📖 Documentation</span>
-              <span>🎧 Support</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
-              <div>
-                <div className="text-sm font-medium">Anushka Bhavsar</div>
-                <div className="text-xs text-gray-500">Tech</div>
+      <div className="px-8 py-6">
+        <Card className="shadow-md border border-[#4C36FF] mb-6">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-2xl font-bold text-gray-900">My Creatives</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <span>📖 Documentation</span>
+                  <span>🎧 Support</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
+                  <div>
+                    <div className="text-sm font-medium">Anushka Bhavsar</div>
+                    <div className="text-xs text-gray-500">Tech</div>
+                  </div>
+                </div>
+                <Dialog open={isNewCreativeOpen} onOpenChange={setIsNewCreativeOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
+                      + New Creative
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Enter Creative Name</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 pt-4">
+                      <div>
+                        <Label htmlFor="creative-name">Creative Name</Label>
+                        <Input
+                          id="creative-name"
+                          placeholder="Enter creative name"
+                          value={creativeName}
+                          onChange={(e) => setCreativeName(e.target.value)}
+                          className="mt-2"
+                        />
+                      </div>
+                      <Button 
+                        onClick={handleCreateCreative}
+                        className="w-full bg-gradient-wizora hover:opacity-90 text-white"
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
-            <Dialog open={isNewCreativeOpen} onOpenChange={setIsNewCreativeOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
-                  + New Creative
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Enter Creative Name</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 pt-4">
-                  <div>
-                    <Label htmlFor="creative-name">Creative Name</Label>
-                    <Input
-                      id="creative-name"
-                      placeholder="Enter creative name"
-                      value={creativeName}
-                      onChange={(e) => setCreativeName(e.target.value)}
-                      className="mt-2"
-                    />
-                  </div>
-                  <Button 
-                    onClick={handleCreateCreative}
-                    className="w-full bg-gradient-wizora hover:opacity-90 text-white"
-                  >
-                    Save
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </div>
+          </CardHeader>
+        </Card>
       </div>
 
       {/* Main Content */}
-      <div className="px-8 py-8">
+      <div className="px-8 py-2">
         <Card className="shadow-sm bg-white">
           <CardHeader>
             <div className="flex items-center justify-between">
