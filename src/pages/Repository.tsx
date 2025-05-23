@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -125,23 +124,6 @@ const Repository = () => {
               </div>
             </CardHeader>
             <CardContent>
-              {/* Asset Edit Button */}
-              <div className="mb-4 flex justify-between items-center">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className={`${!selectedImage ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  onClick={handleEditAsset}
-                  disabled={!selectedImage}
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  Asset Edit
-                </Button>
-                {selectedImage && (
-                  <p className="text-sm text-gray-500">Selected: {selectedImage}</p>
-                )}
-              </div>
-
               <div className="flex h-[calc(100vh-320px)]">
                 {/* Left Panel - Folders */}
                 <div className="w-1/3 border-r border-gray-200 pr-4">
@@ -177,9 +159,19 @@ const Repository = () => {
                     </h3>
                     {selectedFolder && (
                       <div className="flex space-x-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className={`${!selectedImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          onClick={handleEditAsset}
+                          disabled={!selectedImage}
+                        >
+                          <Edit className="h-4 w-4 mr-2" />
+                          Asset Edit
+                        </Button>
                         <Button variant="outline" size="sm">
                           <Download className="h-4 w-4 mr-2" />
-                          Download All
+                          Download
                         </Button>
                         <Button variant="outline" size="sm">
                           <Trash2 className="h-4 w-4 mr-2" />
