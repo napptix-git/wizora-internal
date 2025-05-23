@@ -18,7 +18,7 @@ export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) =>
   const [isRepositoryOpen, setIsRepositoryOpen] = useState(false)
 
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden h-full relative">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden h-full relative">
       {/* Repository button in top right */}
       <div className="absolute top-4 right-4 z-20">
         <Button 

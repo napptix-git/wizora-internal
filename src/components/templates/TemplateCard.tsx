@@ -27,9 +27,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   return (
     <Card 
       key={template.id}
-      className={`cursor-pointer transition-all duration-200 hover:shadow-md border ${
+      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
         isSelected 
-          ? 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gradient-wizora text-white'
+          ? 'bg-gradient-wizora text-white'
           : 'hover:bg-gray-50 bg-white border-gray-200'
       }`}
       onClick={onClick}
