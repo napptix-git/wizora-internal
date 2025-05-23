@@ -9,6 +9,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Index from "./pages/Index";
 import Creatives from "./pages/Creatives";
 import Templates from "./pages/Templates";
+import Assets from "./pages/Assets";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -35,6 +36,7 @@ const App = () => (
                   <Routes>
                     <Route path="/" element={<Creatives />} />
                     <Route path="/creatives" element={<Creatives />} />
+                    <Route path="/assets" element={<Assets />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

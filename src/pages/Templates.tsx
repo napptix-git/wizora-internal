@@ -1,9 +1,9 @@
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
+import { useNavigate } from "react-router-dom"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const templates = [
   {
@@ -11,28 +11,32 @@ const templates = [
     name: "Scratch Card",
     category: "Interactive",
     preview: "🎴",
-    description: "Engaging scratch-to-reveal mechanics"
+    description: "Engaging scratch-to-reveal mechanics",
+    previewImage: "scratchcard-preview.jpg"
   },
   {
     id: 2,
     name: "Carousel",
     category: "Display",
     preview: "🎠", 
-    description: "Swipeable image carousel"
+    description: "Swipeable image carousel",
+    previewImage: "carousel-preview.jpg"
   },
   {
     id: 3,
     name: "Carousel with Video",
     category: "Video",
     preview: "📹",
-    description: "Video-enhanced carousel experience"
+    description: "Video-enhanced carousel experience",
+    previewImage: "carousel-video-preview.jpg"
   },
   {
     id: 4,
     name: "Endless Runner",
     category: "Game",
     preview: "🏃",
-    description: "Infinite scrolling game mechanics"
+    description: "Infinite scrolling game mechanics",
+    previewImage: "endless-runner-preview.jpg"
   },
   {
     id: 5,
@@ -40,7 +44,8 @@ const templates = [
     category: "Game",
     preview: "🎯",
     description: "Interactive collection game",
-    featured: true
+    featured: true,
+    previewImage: "catch-collect-preview.jpg"
   },
   {
     id: 6,
@@ -67,7 +72,18 @@ const templates = [
 
 const Templates = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(5)
-  const [showMobilePreview, setShowMobilePreview] = useState(true)
+  const [activeTab, setActiveTab] = useState("assets")
+  const navigate = useNavigate()
+  
+  const handleUse = () => {
+    navigate("/dashboard/assets")
+  }
+  
+  // Preview states
+  const [previewBackground, setPreviewBackground] = useState("bg-gradient-to-b from-red-500 to-red-600")
+  
+  // Get the selected template
+  const currentTemplate = templates.find(t => t.id === selectedTemplate) || templates[0]
 
   return (
     <div className="min-h-screen bg-wizora-background font-product">
@@ -86,17 +102,17 @@ const Templates = () => {
       </div>
 
       <div className="flex">
-        {/* Template Selection */}
-        <div className="w-1/3 p-8 space-y-4">
+        {/* Template Selection - Left tray without popup styling */}
+        <div className="w-1/3 p-8 space-y-4 bg-white">
           {templates.map((template) => (
             <Card 
               key={template.id}
-              className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+              className={`cursor-pointer transition-all duration-200 hover:shadow-md border ${
                 selectedTemplate === template.id 
                   ? template.featured
-                    ? 'ring-2 ring-blue-500 bg-gradient-wizora text-white'
-                    : 'ring-2 ring-gray-300 bg-gray-100'
-                  : 'hover:bg-gray-50 bg-white'
+                    ? 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gradient-wizora text-white'
+                    : 'border-[#4C36FF] ring-2 ring-[#4C36FF] bg-gray-100'
+                  : 'hover:bg-gray-50 bg-white border-gray-200'
               }`}
               onClick={() => setSelectedTemplate(template.id)}
             >
@@ -144,8 +160,32 @@ const Templates = () => {
                   </div>
                 </div>
 
-                {/* Game Preview Area */}
-                <div className="flex-1 bg-gradient-to-b from-red-500 to-red-600 relative overflow-hidden">
+                {/* Game Preview Area - Show different previews based on selected template */}
+                <div className={`flex-1 ${previewBackground} relative overflow-hidden`}>
+                  {selectedTemplate === 1 && (
+                    <div className="flex items-center justify-center h-full">
+                      <div className="bg-gray-100 w-64 h-64 rounded-lg flex items-center justify-center relative">
+                        <div className="absolute inset-0 bg-gray-300 opacity-50 rounded-lg"></div>
+                        <div className="text-4xl z-10">🎁</div>
+                        <div className="absolute bottom-4 text-center w-full text-gray-700 font-medium">Scratch to reveal</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {selectedTemplate === 2 && (
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <div className="flex space-x-2 mb-4">
+                        <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
+                        <div className="w-2 h-2 rounded-full bg-white"></div>
+                        <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
+                      </div>
+                      <div className="bg-white w-64 h-64 rounded-lg flex items-center justify-center shadow-lg">
+                        <div className="text-6xl">🚗</div>
+                      </div>
+                      <div className="mt-4 text-white">Swipe to see more</div>
+                    </div>
+                  )}
+                  
                   {selectedTemplate === 5 && (
                     <>
                       {/* Christmas decorations */}
@@ -171,33 +211,22 @@ const Templates = () => {
                       <div className="absolute bottom-8 left-4 text-2xl">🎄</div>
                     </>
                   )}
+                  
+                  {/* Default preview for other templates */}
+                  {![1, 2, 5].includes(selectedTemplate || 0) && (
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <div className="bg-white bg-opacity-10 w-64 h-64 rounded-lg flex items-center justify-center">
+                        <div className="text-6xl">{templates.find(t => t.id === selectedTemplate)?.preview || "🎮"}</div>
+                      </div>
+                      <div className="mt-4 text-white font-medium">
+                        {templates.find(t => t.id === selectedTemplate)?.name || "Interactive Experience"}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Navigation Bar */}
                 <div className="h-16 bg-white border-t border-gray-200 flex items-center justify-center space-x-8">
                   <button className="p-2">←</button>
                   <button className="p-2">🏠</button>
-                  <button className="p-2">⚏</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Select a Layout to Preview
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Choose from our collection of interactive templates
-            </p>
-            <Button className="bg-gradient-wizora hover:opacity-90 text-white px-8 py-2 rounded-lg font-medium">
-              USE
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default Templates
+                  <button className="p-2">

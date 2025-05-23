@@ -8,8 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import { useNavigate } from "react-router-dom"
+import { useToast } from "@/components/ui/use-toast"
 
-const creatives = [
+const initialCreatives = [
   {
     id: 1,
     name: "new",
@@ -85,16 +87,52 @@ const creatives = [
 const Creatives = () => {
   const [isNewCreativeOpen, setIsNewCreativeOpen] = useState(false)
   const [creativeName, setCreativeName] = useState("")
+  const [creatives, setCreatives] = useState(initialCreatives)
+  const navigate = useNavigate()
+  const { toast } = useToast()
 
   const handleCreateCreative = () => {
     if (!creativeName.trim()) {
-      alert("Please enter a creative name.")
+      toast({
+        title: "Name Required",
+        description: "Please enter a creative name.",
+        variant: "destructive"
+      })
       return
     }
-    console.log("Creating creative:", creativeName)
+    
+    // Create a new creative
+    const newCreative = {
+      id: creatives.length + 1,
+      name: creativeName,
+      lastEdit: new Date().toLocaleString(),
+      layout: "Choose Layout",
+      imps: "-",
+      clicks: "-",
+      engagement: "-",
+      status: "draft"
+    }
+    
+    setCreatives([...creatives, newCreative])
     setCreativeName("")
     setIsNewCreativeOpen(false)
-    // Here you would typically navigate to the template selection
+    
+    // Navigate to templates page
+    navigate("/templates")
+  }
+  
+  const toggleCreativeStatus = (id: number) => {
+    setCreatives(creatives.map(creative => {
+      if (creative.id === id) {
+        const newStatus = creative.status === "active" ? "paused" : "active"
+        return { ...creative, status: newStatus }
+      }
+      return creative
+    }))
+  }
+
+  const handleEditCreative = (id: number) => {
+    navigate("/templates")
   }
 
   return (
@@ -179,6 +217,7 @@ const Creatives = () => {
                     <div className="flex items-center">
                       <Switch 
                         checked={creative.status === 'active'}
+                        onCheckedChange={() => toggleCreativeStatus(creative.id)}
                         className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300 w-9 h-5"
                       />
                     </div>
@@ -197,7 +236,12 @@ const Creatives = () => {
                     <Button variant="ghost" size="sm" className="p-2">
                       <Eye className="h-4 w-4 text-gray-600" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="p-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="p-2"
+                      onClick={() => handleEditCreative(creative.id)}
+                    >
                       <Edit className="h-4 w-4 text-gray-600" />
                     </Button>
                     <Button variant="ghost" size="sm" className="p-2">
