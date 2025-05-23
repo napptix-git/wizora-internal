@@ -17,9 +17,12 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-2xl">
+    <div className="min-h-screen bg-wizora-background flex items-center justify-center p-4 font-product">
+      <Card className="w-full max-w-md shadow-2xl bg-white">
         <CardHeader className="text-center pb-6">
+          <h1 className="text-3xl font-bold bg-gradient-wizora bg-clip-text text-transparent font-gulfs mb-4">
+            WIZORA
+          </h1>
           <CardTitle className="text-2xl font-bold text-gray-900">
             {isSignUp ? "Sign Up" : "Log In"}
           </CardTitle>
@@ -58,7 +61,7 @@ const Login = () => {
 
             <Button 
               type="submit"
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 rounded-lg font-medium transition-colors"
+              className="w-full bg-gradient-wizora hover:opacity-90 text-white py-2 rounded-lg font-medium transition-colors"
             >
               {isSignUp ? "Sign Up" : "Log In"}
             </Button>

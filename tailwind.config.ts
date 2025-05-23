@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'gulfs': ['Gulfs Display', 'sans-serif'],
+				'product': ['Product Sans', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -67,7 +71,8 @@ export default {
 					purple: '#6366F1',
 					blue: '#3B82F6',
 					'purple-light': '#8B5CF6',
-					'blue-light': '#60A5FA'
+					'blue-light': '#60A5FA',
+					background: '#EDEBFF',  // Added the exact background color
 				}
 			},
 			backgroundImage: {

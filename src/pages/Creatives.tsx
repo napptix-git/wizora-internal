@@ -7,6 +7,7 @@ import { Eye, Edit, Settings, BarChart } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 
 const creatives = [
   {
@@ -97,7 +98,7 @@ const Creatives = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-wizora-background font-product">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between">
@@ -139,7 +140,7 @@ const Creatives = () => {
                   </div>
                   <Button 
                     onClick={handleCreateCreative}
-                    className="w-full bg-gray-800 hover:bg-gray-700 text-white"
+                    className="w-full bg-gradient-wizora hover:opacity-90 text-white"
                   >
                     Save
                   </Button>
@@ -152,7 +153,7 @@ const Creatives = () => {
 
       {/* Main Content */}
       <div className="px-8 py-8">
-        <Card className="shadow-sm">
+        <Card className="shadow-sm bg-white">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold">Creative Performance</CardTitle>
@@ -175,10 +176,12 @@ const Creatives = () => {
               {creatives.map((creative) => (
                 <div key={creative.id} className="grid grid-cols-7 gap-4 items-center py-3 hover:bg-gray-50 rounded-lg transition-colors">
                   <div className="flex items-center space-x-3">
-                    <div className={`w-3 h-3 rounded-full ${
-                      creative.status === 'active' ? 'bg-green-500' : 
-                      creative.status === 'paused' ? 'bg-yellow-500' : 'bg-gray-400'
-                    }`}></div>
+                    <div className="flex items-center">
+                      <Switch 
+                        checked={creative.status === 'active'}
+                        className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300 w-9 h-5"
+                      />
+                    </div>
                     <span className="font-medium text-gray-900">{creative.name}</span>
                   </div>
                   <div>
