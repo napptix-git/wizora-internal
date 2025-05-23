@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -117,8 +116,8 @@ const Creatives = () => {
     setCreativeName("")
     setIsNewCreativeOpen(false)
     
-    // Navigate to templates page
-    navigate("/templates")
+    // Navigate to templates page within dashboard
+    navigate("/dashboard/templates")
   }
   
   const toggleCreativeStatus = (id: number) => {
@@ -132,7 +131,7 @@ const Creatives = () => {
   }
 
   const handleEditCreative = (id: number) => {
-    navigate("/templates")
+    navigate("/dashboard/templates")
   }
 
   return (

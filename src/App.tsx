@@ -24,7 +24,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/templates" element={<Templates />} />
           <Route path="/dashboard/*" element={
             <SidebarProvider>
               <div className="min-h-screen flex w-full bg-[#EDEBFF]">
@@ -36,6 +35,7 @@ const App = () => (
                   <Routes>
                     <Route path="/" element={<Creatives />} />
                     <Route path="/creatives" element={<Creatives />} />
+                    <Route path="/templates" element={<Templates />} />
                     <Route path="/assets" element={<Assets />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
