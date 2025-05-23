@@ -72,7 +72,7 @@ export default {
 					blue: '#3B82F6',
 					'purple-light': '#8B5CF6',
 					'blue-light': '#60A5FA',
-					background: '#EDEBFF',  // Added the exact background color
+					background: '#EDEBFF',  // Lavender background color
 				}
 			},
 			backgroundImage: {

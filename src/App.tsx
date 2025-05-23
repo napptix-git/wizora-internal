@@ -25,7 +25,7 @@ const App = () => (
           <Route path="/templates" element={<Templates />} />
           <Route path="/*" element={
             <SidebarProvider>
-              <div className="min-h-screen flex w-full bg-wizora-background">
+              <div className="min-h-screen flex w-full bg-[#EDEBFF]">
                 <AppSidebar />
                 <main className="flex-1">
                   <div className="md:hidden p-4">
