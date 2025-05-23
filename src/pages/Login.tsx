@@ -23,9 +23,11 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center p-4 font-product bg-[#EDEBFF]">
       <Card className="w-full max-w-md shadow-2xl bg-white rounded-lg">
         <CardHeader className="text-center pb-6">
-          <h1 className="text-3xl font-bold bg-gradient-wizora bg-clip-text text-transparent font-gulfs mb-4">
-            WIZORA
-          </h1>
+          <img 
+            src="/lovable-uploads/90b46b0c-2812-4d9c-9364-fb334c5e6ce2.png" 
+            alt="WIZORA Logo" 
+            className="h-12 mx-auto mb-4" 
+          />
           <CardTitle className="text-2xl font-medium text-gray-800">
             {isSignUp ? "Sign Up" : "Sign In"}
           </CardTitle>
