@@ -34,7 +34,7 @@ const App = () => (
                     <SidebarTrigger />
                   </div>
                   <Routes>
-                    <Route path="/" element={<Creatives />} />
+                    <Route path="/" element={<Navigate to="/dashboard/creatives" replace />} />
                     <Route path="/creatives" element={<Creatives />} />
                     <Route path="/templates" element={<Templates />} />
                     <Route path="/assets" element={<Assets />} />

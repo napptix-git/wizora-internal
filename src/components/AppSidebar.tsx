@@ -11,7 +11,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { Home, FolderOpen, Users, Settings, LogOut, Database } from "lucide-react"
+import { FolderOpen, Users, Settings, LogOut, Database } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -27,16 +27,10 @@ export function AppSidebar() {
   // Determine which menu item should be active based on current route
   const menuItems = [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-      active: location.pathname === "/dashboard"
-    },
-    {
       title: "My Creatives",
       url: "/dashboard/creatives",
       icon: FolderOpen,
-      active: location.pathname === "/dashboard/creatives"
+      active: location.pathname === "/dashboard/creatives" || location.pathname === "/dashboard" || location.pathname === "/dashboard/"
     },
     {
       title: "Users",
