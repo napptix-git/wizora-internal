@@ -44,25 +44,27 @@ export const Repository = ({ isOpen, onClose }: RepositoryProps) => {
                 <span className="font-medium text-gray-900">{folder.name}</span>
               </div>
               
-              <div className="grid grid-cols-2 gap-2">
-                {folder.files.map((file) => (
-                  <div 
-                    key={file}
-                    className="border border-gray-200 rounded p-2 cursor-pointer hover:bg-gray-50 transition-colors"
-                    draggable
-                    onDragStart={(e) => {
-                      e.dataTransfer.setData("text/plain", file)
-                    }}
-                  >
-                    <div className="flex flex-col items-center space-y-1">
-                      <ImageIcon className="h-8 w-8 text-gray-400" />
-                      <span className="text-xs text-gray-600 truncate w-full text-center">
-                        {file}
-                      </span>
+              <ScrollArea className="h-32">
+                <div className="grid grid-cols-2 gap-2 pr-4">
+                  {folder.files.map((file) => (
+                    <div 
+                      key={file}
+                      className="border border-gray-200 rounded p-2 cursor-pointer hover:bg-gray-50 transition-colors"
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData("text/plain", file)
+                      }}
+                    >
+                      <div className="flex flex-col items-center space-y-1">
+                        <ImageIcon className="h-8 w-8 text-gray-400" />
+                        <span className="text-xs text-gray-600 truncate w-full text-center">
+                          {file}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </ScrollArea>
             </div>
           ))}
         </div>
