@@ -4,13 +4,26 @@ import React from 'react';
 interface IPhoneFrameProps {
   children: React.ReactNode;
   className?: string;
+  size?: 'small' | 'medium' | 'large';
 }
 
-const IPhoneFrame: React.FC<IPhoneFrameProps> = ({ children, className = "" }) => {
+const IPhoneFrame: React.FC<IPhoneFrameProps> = ({ children, className = "", size = "medium" }) => {
+  const sizeClasses = {
+    small: "w-64 h-[480px]",
+    medium: "w-72 h-[540px]", 
+    large: "w-80 h-[600px]"
+  };
+
+  const notchClasses = {
+    small: "w-32",
+    medium: "w-36",
+    large: "w-40"
+  };
+
   return (
-    <div className={`w-80 h-[600px] bg-black rounded-[40px] p-3 shadow-2xl relative ${className}`}>
+    <div className={`${sizeClasses[size]} bg-black rounded-[40px] p-3 shadow-2xl relative ${className}`}>
       {/* iPhone notch */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-40 h-6 bg-black rounded-b-2xl z-10"></div>
+      <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 ${notchClasses[size]} h-6 bg-black rounded-b-2xl z-10`}></div>
       
       <div className="w-full h-full bg-white rounded-[36px] overflow-hidden relative">
         {/* Status Bar */}

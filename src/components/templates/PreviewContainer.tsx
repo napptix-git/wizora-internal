@@ -28,9 +28,9 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <div className="relative">
-        <IPhoneFrame>
+    <div className="flex flex-col items-center justify-center h-full p-4">
+      <div className="relative max-w-full max-h-full flex flex-col items-center">
+        <IPhoneFrame size="small">
           {/* Game Preview Area */}
           <div className={`flex-1 ${previewBackground} relative overflow-hidden`}>
             {selectedTemplate === 1 && <ScratchCardPreview />}
@@ -41,7 +41,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
         </IPhoneFrame>
         
         {/* Use button */}
-        <div className="mt-6 flex justify-center">
+        <div className="mt-4 flex justify-center">
           <Button 
             onClick={handleUse}
             className="bg-gradient-wizora hover:opacity-90 text-white px-8 py-2 rounded-lg font-medium"
