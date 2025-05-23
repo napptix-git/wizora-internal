@@ -46,7 +46,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-gray-200 bg-white">
       <SidebarHeader className="p-6">
         <img 
-          src="/lovable-uploads/c05f9ec3-7bfd-4382-ae4b-194d12966e19.png" 
+          src="/lovable-uploads/70d07a7b-2745-48c7-a3ac-550181ac6682.png" 
           alt="WIZORA Logo" 
           className="h-8" 
         />
