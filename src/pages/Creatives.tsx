@@ -208,9 +208,9 @@ const Creatives = () => {
       </div>
 
       {/* Main Content */}
-      <div className="px-8 pb-8 flex-1 overflow-hidden">
+      <div className="px-8 pb-8 flex-1 min-h-0">
         <Card className="shadow-sm bg-white rounded-lg h-full flex flex-col">
-          <CardHeader className="flex-shrink-0">
+          <CardHeader className="flex-shrink-0 pb-4">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold">Creative Performance</CardTitle>
               <div className="flex items-center space-x-3">
@@ -241,72 +241,76 @@ const Creatives = () => {
             </div>
           </CardHeader>
           
-          <CardContent className="flex-1 overflow-hidden p-0">
-            <div className="px-6">
+          <CardContent className="flex-1 min-h-0 p-0">
+            <div className="h-full flex flex-col">
               {/* Table Header */}
-              <div className="grid grid-cols-7 gap-4 pb-4 border-b border-gray-200 text-sm font-medium text-gray-500 uppercase tracking-wider">
-                <div>NAME</div>
-                <div>LAYOUT</div>
-                <div>LAST EDIT</div>
-                <div>IMPS</div>
-                <div>CLICKS%</div>
-                <div>ENG%</div>
-                <div>ACTIONS</div>
+              <div className="px-6 pb-4 border-b border-gray-200 flex-shrink-0">
+                <div className="grid grid-cols-7 gap-4 text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <div>NAME</div>
+                  <div>LAYOUT</div>
+                  <div>LAST EDIT</div>
+                  <div>IMPS</div>
+                  <div>CLICKS%</div>
+                  <div>ENG%</div>
+                  <div>ACTIONS</div>
+                </div>
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="flex-1 min-h-0">
+                <ScrollArea className="h-full">
+                  <div className="px-6 py-2">
+                    {filteredCreatives.map((creative) => (
+                      <div key={creative.id} className="grid grid-cols-7 gap-4 items-center py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex items-center">
+                            <Switch 
+                              checked={creative.status === 'active'}
+                              onCheckedChange={() => toggleCreativeStatus(creative.id)}
+                              className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300 w-9 h-5"
+                            />
+                          </div>
+                          <span 
+                            className="font-medium text-gray-900 cursor-pointer hover:text-[#4C36FF]"
+                            onClick={() => handleCreativeClick(creative.id)}
+                          >
+                            {creative.name}
+                          </span>
+                        </div>
+                        <div>
+                          <Badge variant="outline" className="text-xs">
+                            {creative.layout}
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-gray-600">{creative.lastEdit}</div>
+                        <div className="text-sm font-medium">{creative.imps}</div>
+                        <div className="text-sm font-medium">{creative.clicks}</div>
+                        <div className="text-sm font-medium">{creative.engagement}</div>
+                        <div className="flex items-center space-x-2">
+                          <Button variant="ghost" size="sm" className="p-2">
+                            <Eye className="h-4 w-4 text-gray-600" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="p-2"
+                            onClick={() => handleEditCreative(creative.id)}
+                          >
+                            <Edit className="h-4 w-4 text-gray-600" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="p-2">
+                            <Settings className="h-4 w-4 text-gray-600" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="p-2">
+                            <BarChart className="h-4 w-4 text-gray-600" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
             </div>
-
-            {/* Scrollable Content */}
-            <ScrollArea className="h-[calc(100vh-400px)]">
-              <div className="px-6 space-y-4 pt-4">
-                {filteredCreatives.map((creative) => (
-                  <div key={creative.id} className="grid grid-cols-7 gap-4 items-center py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center">
-                        <Switch 
-                          checked={creative.status === 'active'}
-                          onCheckedChange={() => toggleCreativeStatus(creative.id)}
-                          className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300 w-9 h-5"
-                        />
-                      </div>
-                      <span 
-                        className="font-medium text-gray-900 cursor-pointer hover:text-[#4C36FF]"
-                        onClick={() => handleCreativeClick(creative.id)}
-                      >
-                        {creative.name}
-                      </span>
-                    </div>
-                    <div>
-                      <Badge variant="outline" className="text-xs">
-                        {creative.layout}
-                      </Badge>
-                    </div>
-                    <div className="text-sm text-gray-600">{creative.lastEdit}</div>
-                    <div className="text-sm font-medium">{creative.imps}</div>
-                    <div className="text-sm font-medium">{creative.clicks}</div>
-                    <div className="text-sm font-medium">{creative.engagement}</div>
-                    <div className="flex items-center space-x-2">
-                      <Button variant="ghost" size="sm" className="p-2">
-                        <Eye className="h-4 w-4 text-gray-600" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="p-2"
-                        onClick={() => handleEditCreative(creative.id)}
-                      >
-                        <Edit className="h-4 w-4 text-gray-600" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="p-2">
-                        <Settings className="h-4 w-4 text-gray-600" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="p-2">
-                        <BarChart className="h-4 w-4 text-gray-600" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
           </CardContent>
         </Card>
       </div>
