@@ -1,9 +1,11 @@
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Switch } from "@/components/ui/switch"
 
 const templates = [
   {
@@ -103,7 +105,7 @@ const Templates = () => {
 
       <div className="flex">
         {/* Template Selection - Left tray without popup styling */}
-        <div className="w-1/3 p-8 space-y-4 bg-white">
+        <div className="w-1/3 p-8 space-y-4 bg-white border-r border-[#4C36FF]">
           {templates.map((template) => (
             <Card 
               key={template.id}
@@ -229,4 +231,25 @@ const Templates = () => {
                 <div className="h-16 bg-white border-t border-gray-200 flex items-center justify-center space-x-8">
                   <button className="p-2">←</button>
                   <button className="p-2">🏠</button>
-                  <button className="p-2">
+                  <button className="p-2">➕</button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Use button */}
+            <div className="mt-6 flex justify-center">
+              <Button 
+                onClick={handleUse}
+                className="bg-gradient-wizora hover:opacity-90 text-white px-8 py-2 rounded-lg font-medium"
+              >
+                USE
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Templates
