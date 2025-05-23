@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -55,37 +54,35 @@ const Repository = () => {
     <div className="min-h-screen bg-wizora-background font-product">
       {/* Header */}
       <div className="px-8 py-6">
-        <Card className="shadow-md border border-[#4C36FF] mb-6">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-2xl font-bold text-gray-900">Asset Repository</h1>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <span>📖 Documentation</span>
-                  <span>🎧 Support</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
-                  <div>
-                    <div className="text-sm font-medium">Anushka Bhavsar</div>
-                    <div className="text-xs text-gray-500">Tech</div>
-                  </div>
-                </div>
-                <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Assets
-                </Button>
-              </div>
+        <div className="bg-white rounded-lg shadow-md mb-6 px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-bold text-gray-900">Asset Repository</h1>
             </div>
-          </CardHeader>
-        </Card>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <span>📖 Documentation</span>
+                <span>🎧 Support</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-wizora"></div>
+                <div>
+                  <div className="text-sm font-medium">Anushka Bhavsar</div>
+                  <div className="text-xs text-gray-500">Tech</div>
+                </div>
+              </div>
+              <Button className="bg-gradient-wizora hover:opacity-90 text-white px-6 py-2 rounded-lg font-medium">
+                <Upload className="h-4 w-4 mr-2" />
+                Upload Assets
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}
       <div className="px-8 pb-8">
-        <Card className="shadow-sm bg-white border border-[#4C36FF] min-h-[calc(100vh-180px)]">
+        <Card className="shadow-sm bg-white rounded-lg min-h-[calc(100vh-180px)]">
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold">File Explorer</CardTitle>

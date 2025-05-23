@@ -3,7 +3,7 @@ import React from "react"
 
 export const Header: React.FC = () => {
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md mb-6 px-8 py-6">
+    <div className="bg-white rounded-lg shadow-md mb-6 px-8 py-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl font-bold text-gray-900">Select a Layout</h1>

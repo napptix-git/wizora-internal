@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Header } from "@/components/templates/Header"
 import { TemplateSelector } from "@/components/templates/TemplateSelector"
@@ -17,7 +16,7 @@ const Templates = () => {
       <Header />
 
       {/* Single container for template selection and preview */}
-      <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden" style={{ height: 'calc(100vh - 200px)' }}>
+      <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: 'calc(100vh - 200px)' }}>
         <div className="flex h-full">
           {/* Template Selection */}
           <div className="w-1/2 border-r border-gray-200">
