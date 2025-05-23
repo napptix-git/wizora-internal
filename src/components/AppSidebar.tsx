@@ -11,7 +11,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { Home, FolderOpen, Users, Settings, LogOut } from "lucide-react"
+import { Home, FolderOpen, Users, Settings, LogOut, Database } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 
@@ -31,6 +31,11 @@ const menuItems = [
     title: "Users",
     url: "/dashboard/users",
     icon: Users,
+  },
+  {
+    title: "Repository",
+    url: "/dashboard/repository",
+    icon: Database,
   },
 ]
 
@@ -76,13 +81,15 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarGroup className="mt-8">
+      </SidebarContent>
+      
+      <SidebarFooter className="p-4">
+        <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 font-product">
             ACCOUNT
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <div className="space-y-1 font-product">
+            <div className="space-y-1 font-product mb-4">
               <div className="text-sm text-gray-600 py-2 px-4">Billing</div>
               <div className="text-sm text-gray-600 py-2 px-4">Account Settings</div>
               <div className="text-sm text-gray-600 py-2 px-4 opacity-50">
@@ -91,9 +98,7 @@ export function AppSidebar() {
             </div>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
-      
-      <SidebarFooter className="p-4">
+        
         <Button 
           variant="ghost" 
           className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 font-product"

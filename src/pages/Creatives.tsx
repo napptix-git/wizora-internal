@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -134,6 +135,11 @@ const Creatives = () => {
     navigate("/dashboard/templates")
   }
 
+  const handleCreativeClick = (id: number) => {
+    // Navigate to assets page for existing creatives
+    navigate("/dashboard/assets")
+  }
+
   return (
     <div className="min-h-screen bg-wizora-background font-product">
       {/* Header */}
@@ -220,7 +226,12 @@ const Creatives = () => {
                         className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-300 w-9 h-5"
                       />
                     </div>
-                    <span className="font-medium text-gray-900">{creative.name}</span>
+                    <span 
+                      className="font-medium text-gray-900 cursor-pointer hover:text-[#4C36FF]"
+                      onClick={() => handleCreativeClick(creative.id)}
+                    >
+                      {creative.name}
+                    </span>
                   </div>
                   <div>
                     <Badge variant="outline" className="text-xs">

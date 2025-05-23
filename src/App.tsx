@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Creatives from "./pages/Creatives";
 import Templates from "./pages/Templates";
 import Assets from "./pages/Assets";
+import Repository from "./pages/Repository";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +38,7 @@ const App = () => (
                     <Route path="/creatives" element={<Creatives />} />
                     <Route path="/templates" element={<Templates />} />
                     <Route path="/assets" element={<Assets />} />
+                    <Route path="/repository" element={<Repository />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

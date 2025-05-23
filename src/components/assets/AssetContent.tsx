@@ -1,9 +1,12 @@
 
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Database } from "lucide-react"
 import { AssetUploadPanel } from "./AssetUploadPanel"
 import { ExtrasPanel } from "./ExtrasPanel"
 import { AssetPhonePreview } from "./AssetPhonePreview"
+import { Repository } from "./Repository"
 
 interface AssetContentProps {
   onImageUpload: (type: string) => void;
@@ -12,9 +15,23 @@ interface AssetContentProps {
 
 export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) => {
   const [activeTab, setActiveTab] = useState("assets")
+  const [isRepositoryOpen, setIsRepositoryOpen] = useState(false)
 
   return (
-    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden h-full">
+    <div className="bg-white border border-[#4C36FF] rounded-lg shadow-md overflow-hidden h-full relative">
+      {/* Repository button in top right */}
+      <div className="absolute top-4 right-4 z-20">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => setIsRepositoryOpen(!isRepositoryOpen)}
+          className="border-[#4C36FF] text-[#4C36FF] hover:bg-[#4C36FF] hover:text-white"
+        >
+          <Database className="h-4 w-4 mr-2" />
+          Open Repository
+        </Button>
+      </div>
+
       <div className="flex h-full">
         {/* Left Panel - Assets Options */}
         <div className="w-1/3 border-r border-gray-200 h-full">
@@ -39,10 +56,18 @@ export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) =>
           </Tabs>
         </div>
 
-        {/* Center Preview */}
-        <div className="flex-1 flex flex-col items-center justify-center p-8">
+        {/* Center Preview - shifts left when repository is open */}
+        <div className={`flex-1 flex flex-col items-center justify-center p-8 transition-all duration-300 ${
+          isRepositoryOpen ? 'mr-80' : ''
+        }`}>
           <AssetPhonePreview onPreview={onPreview} />
         </div>
+
+        {/* Repository sliding tray */}
+        <Repository 
+          isOpen={isRepositoryOpen} 
+          onClose={() => setIsRepositoryOpen(false)} 
+        />
       </div>
     </div>
   )
