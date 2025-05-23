@@ -46,7 +46,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-gray-200 bg-white">
       <SidebarHeader className="p-6">
         <img 
-          src="/lovable-uploads/70d07a7b-2745-48c7-a3ac-550181ac6682.png" 
+          src="/lovable-uploads/c05f9ec3-7bfd-4382-ae4b-194d12966e19.png" 
           alt="WIZORA Logo" 
           className="h-8" 
         />
@@ -74,24 +74,6 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup className="mt-8">
-          <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 font-product">
-            PRODUCTS
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <div className="space-y-4">
-              <div className="bg-gradient-wizora rounded-lg p-4 text-white">
-                <h3 className="font-bold text-lg font-product">Quest</h3>
-                <p className="text-sm opacity-90 font-product">Gaming DSP</p>
-              </div>
-              <div className="bg-gray-800 rounded-lg p-4 text-white">
-                <h3 className="font-bold text-lg font-product">QuestMap</h3>
-                <p className="text-sm opacity-75 font-product">Inventory Discovery Tool</p>
-              </div>
-            </div>
           </SidebarGroupContent>
         </SidebarGroup>
 
