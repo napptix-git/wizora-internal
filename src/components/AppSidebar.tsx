@@ -13,27 +13,35 @@ import {
 } from "@/components/ui/sidebar"
 import { Home, FolderOpen, Users, Settings, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 const menuItems = [
   {
     title: "Dashboard",
-    url: "/",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "My Creatives",
-    url: "/creatives",
+    url: "/dashboard/creatives",
     icon: FolderOpen,
     active: true,
   },
   {
     title: "Users",
-    url: "/users",
+    url: "/dashboard/users",
     icon: Users,
   },
 ]
 
 export function AppSidebar() {
+  const navigate = useNavigate()
+  
+  const handleLogout = () => {
+    // Handle logout logic here
+    navigate("/login")
+  }
+  
   return (
     <Sidebar className="border-r border-gray-200 bg-white">
       <SidebarHeader className="p-6">
@@ -105,6 +113,7 @@ export function AppSidebar() {
         <Button 
           variant="ghost" 
           className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 font-product"
+          onClick={handleLogout}
         >
           <LogOut className="mr-3 h-4 w-4" />
           Logout

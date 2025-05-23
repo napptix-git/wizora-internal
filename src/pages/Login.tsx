@@ -16,7 +16,7 @@ const Login = () => {
     e.preventDefault()
     console.log("Form submitted:", { email, password, isSignUp })
     // Handle authentication logic here
-    navigate("/")
+    navigate("/dashboard")
   }
 
   return (
