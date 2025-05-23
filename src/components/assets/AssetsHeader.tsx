@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button"
 
 export const AssetsHeader = () => {
@@ -9,7 +10,7 @@ export const AssetsHeader = () => {
           <img 
             src="/lovable-uploads/90b46b0c-2812-4d9c-9364-fb334c5e6ce2.png" 
             alt="WIZORA Logo" 
-            className="h-8" 
+            className="h-24" 
           />
           <h1 className="text-2xl font-bold text-gray-900">Customize Assets</h1>
         </div>

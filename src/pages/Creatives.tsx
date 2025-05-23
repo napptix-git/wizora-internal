@@ -1,4 +1,5 @@
 
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -144,7 +145,7 @@ const Creatives = () => {
             <img 
               src="/lovable-uploads/90b46b0c-2812-4d9c-9364-fb334c5e6ce2.png" 
               alt="WIZORA Logo" 
-              className="h-8" 
+              className="h-24" 
             />
             <h1 className="text-2xl font-bold text-gray-900">My Creatives</h1>
           </div>

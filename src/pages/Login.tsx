@@ -26,7 +26,7 @@ const Login = () => {
           <img 
             src="/lovable-uploads/90b46b0c-2812-4d9c-9364-fb334c5e6ce2.png" 
             alt="WIZORA Logo" 
-            className="h-12 mx-auto mb-4" 
+            className="h-36 mx-auto mb-4" 
           />
           <CardTitle className="text-2xl font-medium text-gray-800">
             {isSignUp ? "Sign Up" : "Sign In"}
