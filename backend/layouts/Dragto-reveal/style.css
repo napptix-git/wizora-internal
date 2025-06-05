@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow:hidden;
+}
+
+.ad-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.background {
+    width: 100%;
+    height: 100vh;
+    background-image: url('assets/Rothko\ Seascapes.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.left-image, .right-image {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+}
+
+.left-image {
+    background-image: url('assets/car1.png'); /* Silhouette image */
+    clip-path: inset(0 0 0 0); /* Initially show the full left image */
+    z-index: 1; /* Ensure left-image is below right-image */
+}
+
+.right-image {
+    background-image: url('assets/car2.png'); /* Actual car image */
+    clip-path: inset(0 0 0 100%); /* Initially hide the right image completely */
+    z-index: 2; /* Ensure right-image is on top when revealed */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    position: absolute;
+    top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: auto;
+    z-index: 10;
+    user-select: none;
+}
+
+/* Overlay1 - always visible */
+.overlay1 {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45%;
+    height: auto;
+    z-index: 9;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Overlay2 - hidden initially */
+.overlay2 {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45%;
+    height: auto;
+    user-select: none;
+    display: none;
+    z-index: 9;
+    pointer-events: none;
+}
+
+.text-content h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.text-content p {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.slider {
+    position: absolute;
+    top: 19%;
+    left: 0%; /* Start at the left edge */
+    width: 0.5px;
+    height: 59%;
+    background: white;
+    cursor: ew-resize;
+    z-index: 15;
+}
+
+.handle {
+    position: absolute;
+    top: 62vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow {
+    width: 10px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.left-arrow {
+    transform: rotate(135deg);
+    margin-right: 12px;
+}
+
+.right-arrow {
+    transform: rotate(-45deg);
+    margin-left: 12px;
+}
+
+.know-more {
+    background: transparent;
+    border:1.5px solid black;
+    color: black;
+    padding: 5px 25px;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+position: absolute;
+top: 87vh;
+font-weight: bold;
+    z-index: 10;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.know-more:hover {
+    background: black;
+    color: white;
+}
+
+/* Responsive adjustments */
+/* @media (max-width: 768px) {
+    .text-content h1 {
+        font-size: 24px;
+    }
+
+    .text-content p {
+        font-size: 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .know-more {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+} */

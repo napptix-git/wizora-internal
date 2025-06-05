@@ -1,4 +1,4 @@
-
+// TemplateCard.tsx
 import React from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -26,7 +26,6 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   return (
     <Card 
-      key={template.id}
       className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
         isSelected 
           ? 'bg-gradient-wizora text-white'

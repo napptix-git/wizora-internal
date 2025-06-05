@@ -1,0 +1,80 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+#container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+#bottomImg, #topCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Ensure canvas and bottom image are at the base layer */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    background-color: grey;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000; /* Higher z-index to keep the button on top */
+}
+
+#Logo {
+    position: absolute;
+    width: auto;
+    max-width: 30%;
+    height: auto;
+    top: 10%; /* 30% gap from the top of the container */
+    left: 50%;
+    user-select: none;
+    transform: translateX(-50%);
+    object-fit: contain; /* Prevent distortion */
+    z-index: 100; /* Higher z-index to place it above the canvas */
+    
+}
+
+#Overlay {
+    position: absolute;
+    width: auto;
+    max-width: 30%;
+    height: auto;
+    bottom: 10%; /* 30% gap from the bottom of the container */
+    left: 50%;
+    transform: translateX(-50%);
+    user-select: none;
+    object-fit: contain; /* Prevent distortion */
+    z-index: 100; /* Higher z-index to place it above the canvas */
+    
+}
+
+@media (max-width: 480px) {
+    .close-btn {
+        width: 50px; /* Adjust width for mobile */
+        height: 50px; /* Adjust height for mobile */
+        font-size: 40px; /* Adjust font size for mobile */
+    }
+    #Logo, #Overlay {
+        max-width: 65%; /* Make sure the images are responsive */
+        height: 30%;
+    }
+}

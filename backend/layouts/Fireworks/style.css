@@ -1,0 +1,67 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: white;
+}
+
+#canvasContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+#Logo {
+  position: relative;
+  width: 170px; /* Increase the size as needed */
+  z-index: 2; /* Logo above the canvas */
+  top: -40%;
+
+}
+#Overlay {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  margin-top: auto; /* Automatically pushes the overlay to the bottom */
+  margin-bottom: -50%; /* 30% gap from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: contain; /* Prevent distortion */
+  z-index: 10;
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: grey;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+@media (max-width: 480px) {
+  .close-btn {
+    font-size: 20px;
+  }
+   #Overlay {
+    width: 90%;
+    width: 30%; 
+   }
+}

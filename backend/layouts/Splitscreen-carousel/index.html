@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Video Ad</title>
+    <link rel="stylesheet" href="./style.css">
+   
+
+</head>
+<body>
+    <div id="interstitialAd" class="interstitial-ad">
+        <button class="close-btn" onclick="closeAd()">×</button>
+        <div class="ad-content">
+            <img src="./assets/Logo.png" id="logo">
+            <video src="./assets/video.mp4" autoplay muted class="responsive-video"></video>
+            <button id="audioButton" onclick="muteAudio()" type="button">
+               <img src="./assets/volume.png" alt="" srcset="">
+               <img src="./assets/unmute.png" id ="mute"alt="">
+            </button>
+            
+          <!-- Carousel Section -->
+    <section id="slider">
+        <input type="radio" name="slider" id="s1">
+        <input type="radio" name="slider" id="s2">
+        <input type="radio" name="slider" id="s3" checked>
+        <input type="radio" name="slider" id="s4">
+        <input type="radio" name="slider" id="s5">
+        <label for="s1" id="slide1"></label>
+        <label for="s2" id="slide2"></label>
+        <label for="s3" id="slide3"></label>
+        <label for="s4" id="slide4"></label>
+        <label for="s5" id="slide5"></label>
+    </section>
+    <button id="prevButton" class="slider-button left"><span>&lt;</span></button>
+    <button id="nextButton" class="slider-button right"><span>&gt;</span></button>
+    <!-- <img src="./assets/gesture.png" id="gesture"> -->
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

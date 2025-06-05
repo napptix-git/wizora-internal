@@ -1,0 +1,109 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.interstitial-ad {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.ad-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./assets/Background.jpg');
+    background-size: cover;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.ad-content video {
+    width: 90%;
+    height: auto;
+    top: 21%;
+    position: absolute;
+}
+
+#Logo {
+    width: 60%;
+    height: auto;
+    z-index: 10;
+    position: absolute;
+    top: 5%;
+    margin-bottom: 20px;
+}
+
+.ad-content #second-media {
+    width: 80%;
+    height: auto;
+    position: absolute;
+    margin-top: 20px;
+    top: 53%;
+}
+
+#Overlay {
+    width: 30%;
+    height: auto;
+    margin: 20px 0;
+    cursor: pointer;
+    z-index: 10;
+    bottom: 0%;
+    position: absolute;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    background-color: grey;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ad-content video,
+    #Logo,
+    .ad-content #second-media,
+    #Overlay {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ad-content video,
+     #Logo
+{
+        width: 98%;
+    }
+    .ad-content #second-media{
+    
+            width: 80%;
+    
+    }
+    #Overlay{
+        width: 55%;
+    }
+    .close-btn{
+        font-size: 12px;
+        right: 4px;
+        top: 8px;
+    }
+}

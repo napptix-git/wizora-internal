@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playable Game Ad</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="interstitialAd" class="interstitial-ad">
+        <div class="ad-content">
+            <button class="close-btn" onclick="closeAd()">×</button>
+            <div id="gameOver">Game Over</div>
+            <div id="scoreDisplay" class="score-display">0/9</div>
+            <div class="game-container" id="gameContainer">
+                <div id="Logo"><img src="./assets/Logo.png"></div>
+                <img id="Overlay" src="./assets/Overlay.png">
+                <div class="player" id="player"><img src="./assets/Player.png" alt="Car"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>

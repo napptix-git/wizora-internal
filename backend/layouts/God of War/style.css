@@ -1,0 +1,191 @@
+/* General styles */
+body, html {
+   margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+} 
+
+.interstitial-ad {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('./assets/Background.png');
+    box-shadow: 0 3000px rgba(201, 200, 201, 0.4);
+    background-size: cover;
+    overflow: hidden;
+    background-position: 0 0;
+}
+
+.player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 4%;
+    left: 50%; /* Initial position centered */
+    transition: left 0.1s; /* Smooth transition for movement */
+}
+
+
+.player img {
+    width: 180px; /* Adjust the width to a fixed value */
+    height: auto;
+}
+
+
+.obstacle {
+    position: absolute;
+    width: 90px;
+    height: auto;
+    bottom: 100%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: inline-block;
+}
+
+.obstacle img {
+    width: 140px;
+    height: auto;
+}
+
+.reward {
+    position: absolute;
+    width: 80px;
+    height: auto;
+    bottom: 100%;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+.reward img {
+    width: 110px;
+    height: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: grey;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 20;
+}
+
+/* Styles for game over message */
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    z-index: 20;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Styles for score display */
+#scoreDisplay {
+    position: absolute;
+    top: 19px;
+    right: 35px;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 20;
+    font-size: 24px;
+    text-align: center;
+}
+
+#Logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 20px;
+}
+
+#Logo img {
+    width: 15vw;
+    height: auto;
+}
+#Overlay {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    bottom: 30%; /* 30% gap from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    object-fit: contain; /* Prevent distortion */
+    z-index: 10;
+    cursor: pointer;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 760px) {
+    .game-container {
+        height: 100%; /* Adjust height for tablets */
+    }
+    #Logo img {
+        height: auto;
+        width: 45%;
+    }
+    .obstacle img {
+        height: auto;
+        width: 100%;
+    }
+    .reward img {
+        height: auto;
+        width: 80%;
+    }
+    
+    
+}
+
+@media (max-width: 1024px) {
+    .game-container {
+        height: 100%; /* Adjust height for desktops */
+    }
+    #scoreDisplay {
+        font-size: 30px;
+    }
+    #Logo img {
+        height: auto;
+        width: 45%;
+    }
+    
+    
+    
+}

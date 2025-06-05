@@ -1,0 +1,275 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.interstitial-ad {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.ad-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #085cd4;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.ad-content video {
+    width: 90%;
+    height: 40%;
+    z-index: 5;
+    position: absolute;
+    top: 5%;
+}
+#logo{
+    width: 150px;
+    height:68px;
+    z-index: 10;
+    top: 2%; 
+    left:0%;
+    position: absolute;
+}
+#audioButton {
+    position: absolute;
+    top: 30%; /* Position relative to the video container */
+    right: 5%; /* Position relative to the video container */
+    z-index: 10; /* Ensure the button appears above the video */
+    background: none; /* No background for the button */
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#audioButton img {
+    width: 30px; /* Adjust icon size */
+    height: 30px;
+    border-radius: 50%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* When the image is hidden */
+#audioButton img.hidden {
+    opacity: 0; /* Fades out */
+    pointer-events: none; /* Prevents interaction with the hidden image */
+}
+
+/* Styles for the carousel */
+#slider {
+    margin-top: 5%; /* Add spacing from the video */
+    height: 45vh;
+    width: 270vw; /* Fit the carousel to the screen width */
+    position: absolute;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    top: 42%;
+}
+
+#slider input[type="radio"] {
+    display: none;
+}
+
+#slider label {
+    margin: auto;
+    width: 25%;
+    height: 100%;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    cursor: grab;
+    transition: transform 0.4s ease, opacity 0.4s ease; /* Smooth snapping and opacity change */
+    opacity: 0; /* Initially hide slides */
+    transform: translate3d(0, 0, 0) scale(0.8); /* Default scale for inactive slides */
+}
+
+
+/* Position and visibility for slides */
+#s1:checked ~ #slide1, #s2:checked ~ #slide2,
+#s3:checked ~ #slide3, #s4:checked ~ #slide4,
+#s5:checked ~ #slide5 {
+    transform: translate3d(0, 0, 0); /* Center the active slide */
+    opacity: 1; /* Make it fully visible */
+    z-index: 3; /* Ensure it's on top */
+}
+
+#s1:checked ~ #slide2, #s2:checked ~ #slide3,
+#s3:checked ~ #slide4, #s4:checked ~ #slide5,
+#s5:checked ~ #slide1 {
+    transform: translate3d(115%, 0, -140px); /* Position to the right */
+    opacity: 0.8; /* Slightly dimmed */
+    z-index: 2;
+}
+
+#s1:checked ~ #slide5, #s2:checked ~ #slide1,
+#s3:checked ~ #slide2, #s4:checked ~ #slide3,
+#s5:checked ~ #slide4 {
+    transform: translate3d(-115%, 0, -140px); /* Position to the left */
+    opacity: 0.8; /* Slightly dimmed */
+    z-index: 2;
+}
+
+/* Hide slides outside the 3 visible ones */
+#s1:checked ~ #slide3, #s2:checked ~ #slide4,
+#s3:checked ~ #slide5, #s4:checked ~ #slide1,
+#s5:checked ~ #slide2 {
+    transform: translate3d(230%, 0, -280px); /* Far right (hidden) */
+    opacity: 0; /* Fully transparent */
+    z-index: 1;
+}
+
+#s1:checked ~ #slide4, #s2:checked ~ #slide5,
+#s3:checked ~ #slide1, #s4:checked ~ #slide2,
+#s5:checked ~ #slide3 {
+    transform: translate3d(-230%, 0, -280px); /* Far left (hidden) */
+    opacity: 0; /* Fully transparent */
+    z-index: 1;
+}
+
+/* Slide colors */
+#slide1 {
+    background-image: url('./assets/campa1-overlay.png'); /* Path to your first image */
+    background-size: contain ; /* Ensure the image covers the slide area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
+    background-color: #2008b3;
+   
+}
+
+#slide2 {
+    background-image: url('./assets/campa2-overlay.png'); /* Path to your second image */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #442d82
+}
+
+#slide3 {
+    background-image: url('./assets/campa3-overlay.png'); /* Path to your third image */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #5295dd;
+}
+
+#slide4 {
+    background-image: url('./assets/campa4-overlay.png'); /* Path to your fourth image */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #e59a29;
+}
+
+#slide5 {
+    background-image: url('./assets/campa5-overlay.png'); /* Path to your fifth image */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #d6563a;
+}
+
+#gesture{
+    width: 18%;
+    height: 13%;
+    position: absolute;
+    z-index: 10;
+    top: 80%;
+    border-radius: 50%;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Offset by half of the element's width */
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: grey;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 100;
+}
+
+.slider-button {
+    position: absolute;
+    top: 67%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 63px;
+    background-color: red;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.slider-button span {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.slider-button.left {
+    left: 10px; /* Adjust position for left button */
+}
+
+.slider-button.right {
+    right: 10px; /* Adjust position for right button */
+}
+#mute{
+    display: none;
+}
+/* Media query for devices with a width of up to 768px */
+/* Media query for devices with a width between 450px and 768px */
+@media (max-width: 768px) {
+    .ad-content video {
+        width: 95%;
+    }
+}
+
+/* Media query for devices with a width between 300px and 450px */
+@media (min-width: 400px) and (max-width: 500px) {
+    .ad-content video {
+        width: 95%;
+        height: 35%;
+    }
+    #logo {
+        top: 4%;
+    }
+}
+@media (min-width: 300px) and (max-width: 400px) {
+    .ad-content video {
+        width: 95%;
+        height: 35%;
+    }
+    #logo {
+        top: 4%;
+    }
+}

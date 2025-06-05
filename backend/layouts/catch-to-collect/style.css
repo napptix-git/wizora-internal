@@ -1,0 +1,410 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+   
+}
+
+.game-container {
+   width: 100vw;
+   height: 100vh;
+   background: linear-gradient(to bottom, #85c9f0, #007bb5);
+   overflow: hidden;
+}
+
+/* Header Styling */
+/* Header Styling */
+.header {
+    background-color: #ff5722;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+ 
+    width: 100%;
+    height: 70px;
+    z-index: 9999;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Logo Styling */
+.header-logo {
+    height: 50px; /* Adjust size */
+    object-fit: contain;
+    user-select: none;
+}
+
+/* Container for Score & Time */
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Keep gap small */
+    position: absolute;
+    left: 65%;
+}
+
+/* Score and Time Box Styling */
+.score-box, .time-box {
+    background-color: white;
+    color: #ff5722;
+    font-weight: bold;
+    text-align: center;
+  
+    border-radius: 5px;
+    font-size: 18px;
+    min-width: 50px; /* Prevent overflow issues */
+    height: 40px; /* Keep consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Labels for Score & Time */
+.label {
+    font-size: 14px;
+    display: block;
+    font-weight: normal;
+}
+
+/* Values inside Score & Time */
+.score-value, .time-value {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1; /* Remove extra space inside */
+}
+
+/* Move Time Box Slightly Left */
+.time-box {
+    margin-left: -5px; /* Shift left without affecting alignment */
+}
+
+/* Time styling to match the image */
+.time-value span {
+    font-weight: bold;
+    color: #ff5722;
+}
+
+
+.start-sec{
+    width: 250px;
+    height: 250px;
+   align-items: center;
+    z-index: 100;
+    justify-content: center;
+    display: flex;
+    left: 15%;
+    top: 20%;
+    position: absolute;
+    background-color: white;
+}
+.start-sec img{
+    width: 85%;
+    position: absolute;
+    top: 5%;
+    height: 70%;
+    user-select: none;
+}
+#play-button {
+    position: absolute;
+    bottom: 20px; /* Adjust if needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff5722;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    padding: 5px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s ease-in-out;
+    animation: pulse 1.5s infinite ease-in-out;
+    z-index: 10000; /* Ensure it is above everything */
+}
+
+/* Scale up and shrink effect */
+@keyframes pulse {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.4);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* Hover effect for better user experience */
+#play-button:hover {
+    background-color: #ff784e;
+}
+.start-sec {
+    transition: opacity 0.2s ease-out;
+}
+
+.shelf {
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    top: -5%;
+    overflow: hidden;
+}
+.shelf img {
+    width: 100%; /* Ensure the image fills the parent container horizontally */
+    height: 95%; /* Maintain the height proportion */
+    transform: scaleX(1.1); /* Scale only the width by 1.15 times */
+    transform-origin: center;
+    z-index: 5; /* Set the scaling point to the center of the image */
+    object-fit: cover;
+    user-select: none; /* Prevent distortion and ensure the image scales properly */
+}
+#cart {
+    width: 35%;
+    height: 15%;
+    position: absolute;
+    z-index: 5;
+    bottom: 2%;
+    user-select: none;
+    left: 50%; /* Set an initial position */
+    transform: translateX(-50%); /* Center the cart horizontally */
+    cursor: grab; /* Indicate that the element is draggable */
+    touch-action: none; /* Prevent default touch behaviors */
+}
+.row1 {
+    position: absolute; /* Position it over the shelf */
+    top: 24%; /* Adjust as needed to position it vertically on the shelf */
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* Add space between the items */
+    align-items: center;
+    z-index: 10; /* Ensure this is above the shelf image */
+}
+.row1 .items
+{
+    width: 27%;
+    height: auto;
+    z-index: 10;
+    user-select: none;
+    position: relative;
+    
+}
+.row2 {
+    position: absolute; /* Position it over the shelf */
+    top: 41%; /* Adjust as needed to position it vertically on the shelf */
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* Add space between the items */
+    align-items: center;
+    z-index: 10; /* Ensure this is above the shelf image */
+}
+.row2 .items1
+{
+    width: 27%;
+    height: auto;
+    z-index: 10;
+    user-select: none;
+    position: relative;
+    
+}
+
+.row3 {
+    position: absolute; /* Position it over the shelf */
+    top: 59%; /* Adjust as needed to position it vertically on the shelf */
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* Add space between the items */
+    align-items: center;
+    z-index: 10; /* Ensure this is above the shelf image */
+}
+.row3 .items2
+{
+    width: 27%;
+    height: auto;
+    position: relative;
+    z-index: 10;
+    user-select: none;
+    
+}
+.row4 {
+    position: absolute; /* Position it over the shelf */
+    top: 76%; /* Adjust as needed to position it vertically on the shelf */
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* Add space between the items */
+    align-items: center;
+    z-index: 10; /* Ensure this is above the shelf image */
+}
+.row4 .items3
+{
+    width: 27%;
+    height: auto;
+    position: relative;
+    z-index: 10;
+    user-select: none;
+    
+}
+.game-over-style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 400px;
+    padding: 20px;
+    background: white; /* Matching green gradient */
+    color:black;
+    display: none;
+    font-size: 22px;
+    text-align: center;
+    z-index: 10000;
+  }
+  
+  /* Game-Over Image */
+  #bag {
+    width: 50%; /* Adjust for better alignment */
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px auto 0;
+    position: relative;
+    top: 5%;
+    user-select: none;
+    display: block;
+    border-radius: 8px; /* Slightly rounded corners */
+    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); */
+  }
+
+  /* Media Queries for Responsiveness */
+
+/* Small Mobile Devices (up to 480px) */
+@media only screen and (min-width: 300px) and (max-width: 400px) {
+    .header {
+        height: 45px;
+    }
+
+    .header-logo {
+        height: 35px;
+    }
+
+    .header-info {
+       
+        gap: 30px;
+    }
+
+    .score-box, .time-box {
+        font-size: 16px;
+        height: 35px;
+        min-width: 45px;
+    }
+
+    .score-value, .time-value {
+        font-size: 18px;
+    }
+
+    .label {
+        font-size: 12px;
+    }
+
+     .start-sec {
+       
+        left: 50%;
+ 
+        transform: translateX(-50%);
+    } 
+
+    #cart {
+       bottom: 3%;
+    }
+
+    .row1, .row2, .row3, .row4 {
+        width: 100%;
+    }
+
+    .row1 .items, .row2 .items1, .row3 .items2, .row4 .items3 {
+        width: 28%;
+    }
+
+    .row1 { top: 27%; }
+    .row2 { top: 42%; }
+    .row3 { top: 63%; }
+    .row4 { top: 79%; }
+
+    .overlay-effect {
+        width: 180px;
+        top: 45%;
+    }
+}
+
+/* Small Mobile Devices (400px to 450px) */
+@media only screen and (min-width: 401px) {
+    .header {
+        height: 50px;
+    }
+
+    .header-logo {
+        height: 45px;
+    }
+
+    .header-info {
+
+        gap: 35px;
+    }
+
+    .score-box, .time-box {
+        font-size: 17px;
+        height: 38px;
+        min-width: 48px;
+    }
+
+    .score-value, .time-value {
+        font-size: 20px;
+    }
+
+    .label {
+        font-size: 13px;
+    }
+
+     .start-sec {
+       
+        left: 50%;
+        
+        transform: translateX(-50%);
+    }
+
+    #cart {
+        bottom: 3%;
+    }
+
+    .row1, .row2, .row3, .row4 {
+        width: 100%;
+    }
+
+    .row1 .items, .row2 .items1, .row3 .items2, .row4 .items3 {
+        width: 31%;
+    }
+
+    .row1 { top: 25%; }
+    .row2 { top: 41%; }
+    .row3 { top: 61%; }
+    .row4 { top: 76%; }
+
+}
+@media only screen and (min-height: 950px) {
+  
+
+    .row1 { top: 27%; }
+    .row2 { top: 42%; }
+    .row3 { top: 61%; }
+    .row4 { top: 77%; }
+
+    .row1 .items, .row2 .items1, .row3 .items2, .row4 .items3 {
+        width: 31%; /* Slightly reduce item width to prevent overflow */
+    }
+}

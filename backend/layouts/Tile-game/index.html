@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tile Matching Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scene scene1" id="scene1">
+    <button class="play-button" id="playButton">Play</button>
+  </div>
+
+  <div class="scene scene2 hidden" id="scene2">
+    <img src="./assets/parle_logo.png" alt="Logo" class="top-logo" />
+    <div class="status-bar">
+      <div class="timer" id="timer">Time: 10s</div>
+      <div class="score" id="score">Score: 0</div>
+    </div>
+    <div class="game-board" id="gameBoard"></div>
+  </div>
+
+  <div class="scene scene3 hidden" id="scene3">
+    <img src="./assets/parle_logo.png" alt="Logo" class="top-logo" />
+    <img src="./assets/overlay2.png" alt="Overlay" class="overlay2" />
+    <div class="scene3-content">
+      <img src="./assets/overlay.png" alt="Overlay" class="overlay-image" />
+      <button id="shopNowButton">Shop Now</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

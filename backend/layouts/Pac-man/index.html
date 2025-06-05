@@ -1,0 +1,33 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pac-Man</title>
+		<link rel="stylesheet" href="./style.css">
+		<link href="/public/css2.css" rel="stylesheet">
+		<!-- <script src="https://kit.fontawesome.com/ca42bbbf84.js" crossorigin="anonymous"></script>  -->
+	</head>
+	<body>
+		
+		<button id="play"  onClick="document.getElementById('play').style.display = 'none'" >Click here to play</button>
+		<div class="game-container">
+		<button class="close-btn" onclick="closeAd()">×</button>
+		<div class="grid"></div>
+		<h2>Score : <span id="score">0</span></h2>
+		<div id="coin-bar">
+			<img id="coin-icon" src="./assets/Coin.png" alt="coin">
+			<div id="fill"></div>
+		</div>
+		<div class="touchpad" id="touchpad">
+			<div class="touchpad-btn" id="up-btn">↑</div>
+				<div class="touchpad-btn" id="left-btn">←</div>
+				<div class="touchpad-btn" id="right-btn">→</div>
+			<div class="touchpad-btn" id="down-btn">↓</div>
+		</div>
+		<img id="Logo" src="./assets/Logo.png">
+        <img id="Overlay" src="./assets/Overlay.png">
+		</div>
+		
+		<script src="./script.js" charset="utf-8"></script>
+	</body>
+</html>

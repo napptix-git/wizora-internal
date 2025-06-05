@@ -12,118 +12,115 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
-
-const initialCreatives = [
-  {
-    id: 1,
-    name: "new",
-    lastEdit: "5/12/2025, 10:57:55 AM",
-    layout: "Scratch Card",
-    imps: "238K",
-    clicks: "3.1%",
-    engagement: "11.2%",
-    status: "active"
-  },
-  {
-    id: 2,
-    name: "test",
-    lastEdit: "5/12/2025, 11:10:05 AM",
-    layout: "Carousel",
-    imps: "-",
-    clicks: "-",
-    engagement: "-",
-    status: "draft"
-  },
-  {
-    id: 3,
-    name: "test2",
-    lastEdit: "5/12/2025, 12:05:47 PM",
-    layout: "Scratch Card",
-    imps: "156K",
-    clicks: "2.8%",
-    engagement: "8.9%",
-    status: "active"
-  },
-  {
-    id: 4,
-    name: "test3",
-    lastEdit: "5/12/2025, 12:07:40 PM",
-    layout: "Carousel",
-    imps: "89K",
-    clicks: "4.2%",
-    engagement: "15.6%",
-    status: "active"
-  },
-  {
-    id: 5,
-    name: "test4",
-    lastEdit: "5/12/2025, 1:49:02 PM",
-    layout: "Endless Runner",
-    imps: "312K",
-    clicks: "5.7%",
-    engagement: "22.1%",
-    status: "active"
-  },
-  {
-    id: 6,
-    name: "test8",
-    lastEdit: "5/12/2025, 1:55:26 PM",
-    layout: "3D Cube",
-    imps: "145K",
-    clicks: "3.9%",
-    engagement: "12.8%",
-    status: "active"
-  },
-  {
-    id: 7,
-    name: "test0",
-    lastEdit: "5/12/2025, 1:57:02 PM",
-    layout: "Pac-Man Style",
-    imps: "98K",
-    clicks: "6.1%",
-    engagement: "18.4%",
-    status: "paused"
-  }
-]
+import { supabase } from "@/lib/supabaseClient"
+import { useEffect } from "react"
 
 const Creatives = () => {
   const [isNewCreativeOpen, setIsNewCreativeOpen] = useState(false)
   const [creativeName, setCreativeName] = useState("")
-  const [creatives, setCreatives] = useState(initialCreatives)
+const [creatives, setCreatives] = useState<any[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
   const navigate = useNavigate()
   const { toast } = useToast()
 
-  const handleCreateCreative = () => {
-    if (!creativeName.trim()) {
+useEffect(() => {
+  const fetchCreatives = async () => {
+    const user = await supabase.auth.getUser()
+    const userId = user.data.user?.id
+
+    if (!userId) return
+
+    const { data, error } = await supabase
+      .from("creatives")
+      .select("*")
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false })
+
+    if (error) {
+      console.error("Error fetching creatives:", error)
       toast({
-        title: "Name Required",
-        description: "Please enter a creative name.",
+        title: "Error",
+        description: "Could not fetch your creatives.",
         variant: "destructive"
       })
-      return
+    } else {
+      const mapped = data.map((item, index) => ({
+  id: index + 1,
+  name: item.creative_name || "-",
+  lastEdit: item.updated_at ? new Date(item.updated_at).toLocaleString() : "-",
+  layout: item.layout || "-",
+  imps: item.impressions ? `${item.impressions}K` : "-",
+  clicks: item.clicks !== null ? `${item.clicks.toFixed(1)}%` : "-",
+  engagement: item.engagement !== null ? `${item.engagement.toFixed(1)}%` : "-",
+  status: item.is_active ? "active" : "paused"
+}))
+
+setCreatives(mapped)
+
     }
-    
-    // Create a new creative
-    const newCreative = {
-      id: creatives.length + 1,
-      name: creativeName,
-      lastEdit: new Date().toLocaleString(),
-      layout: "Choose Layout",
-      imps: "-",
-      clicks: "-",
-      engagement: "-",
-      status: "draft"
-    }
-    
-    setCreatives([...creatives, newCreative])
-    setCreativeName("")
-    setIsNewCreativeOpen(false)
-    
-    // Navigate to templates page within dashboard
-    navigate("/dashboard/templates")
   }
+
+  fetchCreatives()
+}, [])
+
+ const handleCreateCreative = async () => {
+  if (!creativeName.trim()) {
+    toast({
+      title: "Name Required",
+      description: "Please enter a creative name.",
+      variant: "destructive"
+    })
+    return
+  }
+
+  const user = await supabase.auth.getUser()
+  const userId = user.data.user?.id
+  const email = user.data.user?.email
+
+  if (!userId || !email) {
+    toast({
+      title: "Authentication error",
+      description: "Please log in again.",
+      variant: "destructive"
+    })
+    return
+  }
+
+
+ const { data, error } = await supabase.from("creatives").insert([
+  {
+    user_id: userId,
+    email,
+    creative_name: creativeName,
+    layout: "Choose Layout",
+    is_active: false,
+    impressions: 0,
+    clicks: 0,
+    engagement: 0
+  }
+]).select("id")
+
+
+  if (error) {
+    toast({
+      title: "Error creating creative",
+      description: error.message,
+      variant: "destructive"
+    })
+    return
+  }
+
+   const createdCreative = data?.[0]
+  sessionStorage.setItem("currentCreativeRowId", createdCreative.id)
+
+  setCreativeName("")
+  setIsNewCreativeOpen(false)
+
+  // ✅ Navigate to layout selection
+  navigate("/dashboard/templates")
+}
+
   
   const toggleCreativeStatus = (id: number) => {
     setCreatives(creatives.map(creative => {
@@ -145,11 +142,13 @@ const Creatives = () => {
   }
 
   // Filter creatives based on search and filter
-  const filteredCreatives = creatives.filter(creative => {
-    const matchesSearch = creative.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesFilter = filterStatus === "all" || creative.status === filterStatus
-    return matchesSearch && matchesFilter
-  })
+  const filteredCreatives = creatives.filter((creative) => {
+  const name = creative?.creative_name || "" // fallback if missing
+  const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase())
+  const matchesFilter = filterStatus === "all" || creative.status === filterStatus
+  return matchesSearch && matchesFilter
+})
+
 
   return (
     <div className="h-screen bg-wizora-background font-product flex flex-col">
@@ -288,7 +287,7 @@ const Creatives = () => {
                         <div className="text-sm font-medium">{creative.engagement}</div>
                         <div className="flex items-center space-x-2">
                           <Button variant="ghost" size="sm" className="p-2">
-                            <Eye className="h-4 w-4 text-gray-600" />
+                            <Eye className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button 
                             variant="ghost" 
@@ -296,13 +295,13 @@ const Creatives = () => {
                             className="p-2"
                             onClick={() => handleEditCreative(creative.id)}
                           >
-                            <Edit className="h-4 w-4 text-gray-600" />
+                            <Edit className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button variant="ghost" size="sm" className="p-2">
-                            <Settings className="h-4 w-4 text-gray-600" />
+                            <Settings className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button variant="ghost" size="sm" className="p-2">
-                            <BarChart className="h-4 w-4 text-gray-600" />
+                            <BarChart className="h-3 w-3 text-gray-600 ml-[-9px]"/>
                           </Button>
                         </div>
                       </div>
