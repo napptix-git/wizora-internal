@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export async function uploadCreativeBuild(layoutName, creativeId) {
-  const layoutPath = path.join(process.cwd(), "layouts", layoutName, "build");
+  const layoutPath = path.join(process.cwd(), "layouts", layoutName);
   const files = fs.readdirSync(layoutPath);
   const supabaseAssetUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/creatives/${creativeId}/`;
 
@@ -17,21 +17,17 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
     let content = fs.readFileSync(filePath, "utf-8");
     const contentType = mime.getType(filePath);
 
-    // ✅ Inject <base href="..."> and patch script/style in index.html
     if (file === "index.html") {
-      // Inject base href
       content = content.replace(
         /<head>/i,
         `<head><base href="${supabaseAssetUrl}">`
       );
 
-      // Patch script and style URLs if needed (optional now)
       content = content
         .replace(/href=["']\.\/style\.css["']/g, `href="${supabaseAssetUrl}style.css"`)
         .replace(/src=["']\.\/script\.js["']/g, `src="${supabaseAssetUrl}script.js"`);
     }
 
-    // ✅ Patch assets in index.html, script.js, style.css
     if (["index.html", "script.js", "style.css"].includes(file)) {
       content = content.replace(
         /(?:src|href)=["']\/?assets\/(.*?\.(png|jpe?g|svg|webp|mp4|ogg|gif|wav|webm|woff2?|ttf|otf|json))["']/gi,
@@ -47,7 +43,6 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
       );
     }
 
-    // ✅ Upload main files
     const buffer = Buffer.from(content, "utf-8");
     const { error } = await supabase.storage.from("creatives").upload(
       `${creativeId}/${file}`,
@@ -59,7 +54,6 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
     else console.log(`✅ Uploaded: ${file}`);
   }
 
-  // ✅ Upload assets folder
   const assetsPath = path.join(layoutPath, "assets");
   if (fs.existsSync(assetsPath)) {
     const assetFiles = fs.readdirSync(assetsPath);
@@ -78,6 +72,6 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
       else console.log(`✅ Uploaded asset: ${file}`);
     }
   } else {
-    console.warn("⚠️ No assets folder found in layout build");
+    console.warn("⚠️ No assets folder found in layout");
   }
 }

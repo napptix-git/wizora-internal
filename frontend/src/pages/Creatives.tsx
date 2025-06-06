@@ -64,62 +64,69 @@ setCreatives(mapped)
   fetchCreatives()
 }, [])
 
- const handleCreateCreative = async () => {
+const generateCreativeId = (): string => {
+  return Math.random().toString(36).substring(2, 12); // 10-character alphanumeric
+};
+
+
+const handleCreateCreative = async () => {
   if (!creativeName.trim()) {
     toast({
       title: "Name Required",
       description: "Please enter a creative name.",
       variant: "destructive"
-    })
-    return
+    });
+    return;
   }
 
-  const user = await supabase.auth.getUser()
-  const userId = user.data.user?.id
-  const email = user.data.user?.email
+  const user = await supabase.auth.getUser();
+  const userId = user.data.user?.id;
+  const email = user.data.user?.email;
 
   if (!userId || !email) {
     toast({
       title: "Authentication error",
       description: "Please log in again.",
       variant: "destructive"
-    })
-    return
+    });
+    return;
   }
 
+  // ✅ Generate 10-char unique creativeId
+  const creativeId = generateCreativeId();
 
- const { data, error } = await supabase.from("creatives").insert([
-  {
-    user_id: userId,
-    email,
-    creative_name: creativeName,
-    layout: "Choose Layout",
-    is_active: false,
-    impressions: 0,
-    clicks: 0,
-    engagement: 0
-  }
-]).select("id")
-
+  // ✅ Insert into Supabase DB
+  const { data, error } = await supabase.from("creatives").insert([
+    {
+      user_id: userId,
+      email,
+      creative_name: creativeName,
+      layout: "Choose Layout",
+      creative_id: creativeId, // <— New field
+      is_active: false,
+      impressions: 0,
+      clicks: 0,
+      engagement: 0
+    }
+  ]).select("id, creative_id");
 
   if (error) {
     toast({
       title: "Error creating creative",
       description: error.message,
       variant: "destructive"
-    })
-    return
+    });
+    return;
   }
 
-   const createdCreative = data?.[0]
-  sessionStorage.setItem("currentCreativeRowId", createdCreative.id)
+  const createdCreative = data?.[0];
+  sessionStorage.setItem("currentCreativeRowId", createdCreative.id);
+  sessionStorage.setItem("activeCreativeId", createdCreative.creative_id); // ✅ Store creative_id for upload
+  setCreativeName("");
+  setIsNewCreativeOpen(false);
+  navigate("/dashboard/templates");
+};
 
-  setCreativeName("")
-  setIsNewCreativeOpen(false)
-
-  // ✅ Navigate to layout selection
-  navigate("/dashboard/templates")
-}
 
   
   const toggleCreativeStatus = (id: number) => {

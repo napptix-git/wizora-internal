@@ -1,13 +1,18 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+// 📁 Setup __dirname in ES module context
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// 📁 Get all layout folders from /layouts
+// ✅ Fetch all layout folders from /backend/layouts
 router.get("/", (req, res) => {
   try {
-    const layoutsPath = path.join(path.resolve(), "layouts");
+    const layoutsPath = path.join(__dirname, "../layouts");
 
     const layoutFolders = fs.readdirSync(layoutsPath).filter((item) => {
       const fullPath = path.join(layoutsPath, item);
@@ -24,30 +29,36 @@ router.get("/", (req, res) => {
 
     res.json({ layouts: formatted });
   } catch (err) {
-    console.error("Error reading layouts:", err);
+    console.error("❌ Error reading layouts:", err);
     res.status(500).json({ error: "Unable to read layout folders" });
   }
 });
 
-// 📁 Get asset list ONLY from layouts/<layoutName>/build/assets
+// ✅ Fetch index.html, style.css, script.js, and asset files from /backend/layouts/<layoutName>
 router.get("/assets/:layoutName", (req, res) => {
   const layoutName = req.params.layoutName;
-  const assetsPath = path.join(process.cwd(), "layouts", layoutName, "build", "assets");
+  const layoutPath = path.join(__dirname, "../layouts", layoutName);
+  const assetsFolderPath = path.join(layoutPath, "assets");
 
   try {
-    if (!fs.existsSync(assetsPath)) {
-      console.warn("Assets folder does not exist:", assetsPath);
-      return res.status(404).json({ files: [] });
-    }
-
-    const allFiles = fs.readdirSync(assetsPath).filter((file) =>
-      fs.statSync(path.join(assetsPath, file)).isFile()
+    const expectedFiles = ["index.html", "style.css", "script.js"];
+    const existingFiles = expectedFiles.filter((file) =>
+      fs.existsSync(path.join(layoutPath, file))
     );
 
-    res.json({ files: allFiles });
+    let assetFiles = [];
+    if (fs.existsSync(assetsFolderPath)) {
+      assetFiles = fs.readdirSync(assetsFolderPath).filter((file) =>
+        fs.statSync(path.join(assetsFolderPath, file)).isFile()
+      );
+    } else {
+      console.warn("⚠️ Assets folder does not exist:", assetsFolderPath);
+    }
+
+    res.json({ files: existingFiles, assets: assetFiles });
   } catch (err) {
-    console.error("Error reading build/assets folder:", err);
-    res.status(500).json({ files: [] });
+    console.error("❌ Error reading layout files:", err);
+    res.status(500).json({ files: [], assets: [] });
   }
 });
 

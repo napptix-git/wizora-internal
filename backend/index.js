@@ -10,7 +10,8 @@ import { supabase } from "./lib/supabaseClient.js";
 // ✅ Route imports
 import userRoutes from "./routes/userRoutes.js";
 import layoutRoutes from "./routes/layoutRoutes.js";
-import uploadBuildRoute from "./routes/uploadBuild.js";
+import uploadRoute from "./routes/uploadRoute.js";
+
 
 dotenv.config();
 const app = express();
@@ -42,7 +43,7 @@ app.use("/layouts", express.static(path.join(__dirname, "layouts")));
 // ✅ Mount API routes
 app.use("/api/users", userRoutes);
 app.use("/api/layouts", layoutRoutes);
-app.use("/api/upload-build", uploadBuildRoute);
+app.use("/api", uploadRoute);
 
 // ✅ Proxy preview HTML from Supabase to allow relaxed CSP for iframe
 app.get("/api/preview/:id", async (req, res) => {

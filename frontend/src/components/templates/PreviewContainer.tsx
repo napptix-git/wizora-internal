@@ -29,7 +29,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/upload-build/${layoutName}/${creativeRowId}`, {
+    const response = await fetch(`http://localhost:3000/api/${layoutName}/${creativeRowId}`, {
       method: "POST",
     });
 
@@ -72,7 +72,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
 <div className="absolute top-[0px] left-0 origin-top-left scale-[0.55] w-[181.5%] h-[172.67%]">
 
     <iframe
-      src={`http://localhost:3000/layouts/${currentTemplate.name}/build/index.html`}
+      src={`http://localhost:3000/layouts/${currentTemplate.name}/index.html`}
       className="w-full h-full border-none"
       allow="fullscreen"
       title="Creative Preview"
