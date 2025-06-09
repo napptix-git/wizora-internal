@@ -53,6 +53,7 @@ app.get("/api/preview/:id", async (req, res) => {
   try {
     const response = await axios.get(supabaseUrl, { responseType: "text" });
 
+    
     // 🔓 Set relaxed CSP so iframe loads CSS, JS, images
     res.setHeader("Content-Type", "text/html");
     res.setHeader(

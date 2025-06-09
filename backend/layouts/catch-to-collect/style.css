@@ -6,25 +6,31 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-   
+    height: 100%; /* Ensure body takes full height of parent */
+    width: 100%;
 }
+
+html {
+    height: 100%; /* Ensure html element takes full height */
+    width: 100%;
+}
+
 
 .game-container {
-   width: 100vw;
-   height: 100vh;
-   background: linear-gradient(to bottom, #85c9f0, #007bb5);
-   overflow: hidden;
+    width: 100%;
+    height: 100%; /* Use 100% instead of 100vh */
+    background: linear-gradient(to bottom, #85c9f0, #007bb5);
+    overflow: hidden;
+    position: relative; /* Ensure children are positioned correctly */
 }
 
-/* Header Styling */
 /* Header Styling */
 .header {
     background-color: #ff5722;
     color: #fff;
     display: flex;
     align-items: center;
-    justify-content: space-between;
- 
+    justify-content: space-between; 
     width: 100%;
     height: 70px;
     z-index: 9999;
@@ -55,7 +61,6 @@ body {
     color: #ff5722;
     font-weight: bold;
     text-align: center;
-  
     border-radius: 5px;
     font-size: 18px;
     min-width: 50px; /* Prevent overflow issues */
@@ -91,11 +96,10 @@ body {
     color: #ff5722;
 }
 
-
-.start-sec{
+.start-sec {
     width: 250px;
     height: 250px;
-   align-items: center;
+    align-items: center;
     z-index: 100;
     justify-content: center;
     display: flex;
@@ -104,13 +108,15 @@ body {
     position: absolute;
     background-color: white;
 }
-.start-sec img{
+
+.start-sec img {
     width: 85%;
     position: absolute;
     top: 5%;
     height: 70%;
     user-select: none;
 }
+
 #play-button {
     position: absolute;
     bottom: 20px; /* Adjust if needed */
@@ -147,6 +153,7 @@ body {
 #play-button:hover {
     background-color: #ff784e;
 }
+
 .start-sec {
     transition: opacity 0.2s ease-out;
 }
@@ -158,6 +165,7 @@ body {
     top: -5%;
     overflow: hidden;
 }
+
 .shelf img {
     width: 100%; /* Ensure the image fills the parent container horizontally */
     height: 95%; /* Maintain the height proportion */
@@ -167,6 +175,7 @@ body {
     object-fit: cover;
     user-select: none; /* Prevent distortion and ensure the image scales properly */
 }
+
 #cart {
     width: 35%;
     height: 15%;
@@ -179,6 +188,7 @@ body {
     cursor: grab; /* Indicate that the element is draggable */
     touch-action: none; /* Prevent default touch behaviors */
 }
+
 .row1 {
     position: absolute; /* Position it over the shelf */
     top: 24%; /* Adjust as needed to position it vertically on the shelf */
@@ -188,15 +198,15 @@ body {
     align-items: center;
     z-index: 10; /* Ensure this is above the shelf image */
 }
-.row1 .items
-{
+
+.row1 .items {
     width: 27%;
     height: auto;
     z-index: 10;
     user-select: none;
     position: relative;
-    
 }
+
 .row2 {
     position: absolute; /* Position it over the shelf */
     top: 41%; /* Adjust as needed to position it vertically on the shelf */
@@ -206,14 +216,13 @@ body {
     align-items: center;
     z-index: 10; /* Ensure this is above the shelf image */
 }
-.row2 .items1
-{
+
+.row2 .items1 {
     width: 27%;
     height: auto;
     z-index: 10;
     user-select: none;
     position: relative;
-    
 }
 
 .row3 {
@@ -225,15 +234,15 @@ body {
     align-items: center;
     z-index: 10; /* Ensure this is above the shelf image */
 }
-.row3 .items2
-{
+
+.row3 .items2 {
     width: 27%;
     height: auto;
     position: relative;
     z-index: 10;
     user-select: none;
-    
 }
+
 .row4 {
     position: absolute; /* Position it over the shelf */
     top: 76%; /* Adjust as needed to position it vertically on the shelf */
@@ -243,15 +252,15 @@ body {
     align-items: center;
     z-index: 10; /* Ensure this is above the shelf image */
 }
-.row4 .items3
-{
+
+.row4 .items3 {
     width: 27%;
     height: auto;
     position: relative;
     z-index: 10;
     user-select: none;
-    
 }
+
 .game-over-style {
     position: absolute;
     top: 50%;
@@ -261,15 +270,15 @@ body {
     height: 400px;
     padding: 20px;
     background: white; /* Matching green gradient */
-    color:black;
+    color: black;
     display: none;
     font-size: 22px;
     text-align: center;
     z-index: 10000;
-  }
-  
-  /* Game-Over Image */
-  #bag {
+}
+
+/* Game-Over Image */
+#bag {
     width: 50%; /* Adjust for better alignment */
     height: auto; /* Maintain aspect ratio */
     margin: 10px auto 0;
@@ -278,10 +287,9 @@ body {
     user-select: none;
     display: block;
     border-radius: 8px; /* Slightly rounded corners */
-    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); */
-  }
+}
 
-  /* Media Queries for Responsiveness */
+/* Media Queries for Responsiveness */
 
 /* Small Mobile Devices (up to 480px) */
 @media only screen and (min-width: 300px) and (max-width: 400px) {
@@ -294,7 +302,6 @@ body {
     }
 
     .header-info {
-       
         gap: 30px;
     }
 
@@ -312,15 +319,13 @@ body {
         font-size: 12px;
     }
 
-     .start-sec {
-       
+    .start-sec {
         left: 50%;
- 
         transform: translateX(-50%);
     } 
 
     #cart {
-       bottom: 3%;
+        bottom: 3%;
     }
 
     .row1, .row2, .row3, .row4 {
@@ -353,7 +358,6 @@ body {
     }
 
     .header-info {
-
         gap: 35px;
     }
 
@@ -371,10 +375,8 @@ body {
         font-size: 13px;
     }
 
-     .start-sec {
-       
+    .start-sec {
         left: 50%;
-        
         transform: translateX(-50%);
     }
 
@@ -390,19 +392,17 @@ body {
         width: 31%;
     }
 
-    .row1 { top: 25%; }
+    .row1 { top: 24%; }
     .row2 { top: 41%; }
     .row3 { top: 61%; }
-    .row4 { top: 76%; }
-
+    .overlay-style { width: 180px; top: 50%; }
 }
-@media only screen and (min-height: 950px) {
-  
 
-    .row1 { top: 27%; }
-    .row2 { top: 42%; }
-    .row3 { top: 61%; }
-    .row4 { top: 77%; }
+@media only screen and (min-height: 950px) {
+    .row1 { top: 25%; }
+    .row2 { top: 40%; }
+    .row3 { top: 60%; }
+    .row4 { top: 76%; }
 
     .row1 .items, .row2 .items1, .row3 .items2, .row4 .items3 {
         width: 31%; /* Slightly reduce item width to prevent overflow */
