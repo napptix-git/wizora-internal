@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { SessionMonitor } from "@/components/SessionMonitor";
 
 import Index from "./pages/Index";
 import Creatives from "./pages/Creatives";
@@ -35,6 +36,7 @@ const App = () => (
                 <SidebarProvider>
                   <div className="min-h-screen flex w-full bg-[#EDEBFF]">
                     <AppSidebar />
+                      <SessionMonitor />
                     <main className="flex-1">
                       <div className="md:hidden p-4">
                         <SidebarTrigger />

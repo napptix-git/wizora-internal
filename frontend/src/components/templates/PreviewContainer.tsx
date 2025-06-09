@@ -29,6 +29,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
   }
 
   try {
+    // Step 1: Upload layout to Supabase Storage
     const response = await fetch(`http://localhost:3000/api/${layoutName}/${creativeRowId}`, {
       method: "POST",
     });
@@ -38,12 +39,38 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
       throw new Error(error.message || "Upload failed");
     }
 
-    sessionStorage.setItem("activeCreativeId", creativeRowId);
+    // Step 2: Get the creative_id from DB
+    const { data, error } = await supabase
+      .from("creatives")
+      .select("creative_id")
+      .eq("id", creativeRowId)
+      .single();
+
+    if (error || !data?.creative_id) {
+      throw new Error("Creative ID not found in Supabase");
+    }
+
+    const creativeId = data.creative_id;
+
+    // ✅ Step 3: Update the layout name in the creatives table
+    const { error: updateError } = await supabase
+      .from("creatives")
+      .update({ layout: layoutName })
+      .eq("creative_id", creativeId);
+
+    if (updateError) {
+      throw new Error("Failed to update layout name in DB");
+    }
+
+    // Step 4: Store for preview and navigate
+    sessionStorage.setItem("currentCreativeId", creativeId);
+    sessionStorage.setItem("activeCreativeId", creativeId);
     navigate("/dashboard/assets");
   } catch (err) {
     alert("❌ Upload failed: " + err.message);
   }
 };
+
   return (
     <div className="h-full w-full flex items-center justify-center px-4 py-6">
       <div className="flex flex-col items-center justify-center gap-4 max-h-[calc(100vh-60px)]">

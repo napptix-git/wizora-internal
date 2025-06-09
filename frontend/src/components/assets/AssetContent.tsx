@@ -51,7 +51,7 @@ export const AssetContent = ({ onImageUpload, onPreview }: AssetContentProps) =>
             </TabsContent>
             
             <TabsContent value="extras" className="mt-0 pr-4 h-full">
-              <ExtrasPanel />
+              <ExtrasPanel onImageUpload={onImageUpload} />
             </TabsContent>
           </Tabs>
         </div>
