@@ -15,6 +15,7 @@ import Repository from "./pages/Repository";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute"; // 👈 import the wrapper
+import PageNotFound from "./components/404";
 
 const queryClient = new QueryClient();
 
@@ -43,11 +44,11 @@ const App = () => (
                       </div>
                       <Routes>
                         <Route path="/" element={<Navigate to="/dashboard/creatives" replace />} />
+                        <Route path="/404" element={<PageNotFound />} />
                         <Route path="/creatives" element={<Creatives />} />
                         <Route path="/templates" element={<Templates />} />
                         <Route path="/assets" element={<Assets />} />
                         <Route path="/repository" element={<Repository />} />
-                        <Route path="*" element={<NotFound />} />
                       </Routes>
                     </main>
                   </div>

@@ -1,49 +1,125 @@
-
-import { useState } from "react"
+import { useState, useCallback, useEffect } from "react"
+import Cropper from "react-easy-crop"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Badge } from "@/components/ui/badge"
 import { X, Crop } from "lucide-react"
 
 interface AssetEditDialogProps {
   isOpen: boolean
   onClose: () => void
   imageName?: string
-  onSave?: (editedImage: any) => void
+  onSave?: (editedImage: { file: File }) => void
+  file?: File | null
 }
 
 const aspectRatios = [
-  { ratio: "2:3", value: 2/3, label: "2:3" },
-  { ratio: "16:9", value: 16/9, label: "16:9" },
-  { ratio: "9:16", value: 9/16, label: "9:16" },
+  { ratio: "2:3", value: 2 / 3, label: "2:3" },
+  { ratio: "16:9", value: 16 / 9, label: "16:9" },
+  { ratio: "9:16", value: 9 / 16, label: "9:16" },
   { ratio: "1:1", value: 1, label: "1:1" },
-  { ratio: "4:3", value: 4/3, label: "4:3" },
-  { ratio: "3:4", value: 3/4, label: "3:4" }
+  { ratio: "4:3", value: 4 / 3, label: "4:3" },
+  { ratio: "3:4", value: 3 / 4, label: "3:4" }
 ]
 
-export const AssetEditDialog = ({ isOpen, onClose, imageName, onSave }: AssetEditDialogProps) => {
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string | null>(null)
-  const [compressionLevel, setCompressionLevel] = useState([100])
-  const [cropArea, setCropArea] = useState({ x: 10, y: 10, width: 80, height: 80 })
+// Helper to get cropped image as a File
+async function getCroppedImg(
+  imageSrc: string,
+  crop: any,
+  fileName: string,
+  aspect: number | undefined,
+  quality: number
+): Promise<File> {
+  const image = new window.Image()
+  image.src = imageSrc
+  await new Promise((resolve) => { image.onload = resolve })
 
-  const handleSave = () => {
-    console.log("Saving edited asset:", {
-      imageName,
-      aspectRatio: selectedAspectRatio,
-      compression: compressionLevel[0],
-      cropArea
-    })
-    onSave?.({
-      imageName,
-      aspectRatio: selectedAspectRatio,
-      compression: compressionLevel[0],
-      cropArea
-    })
+  const canvas = document.createElement('canvas')
+  const scaleX = image.naturalWidth / image.width
+  const scaleY = image.naturalHeight / image.height
+
+  canvas.width = crop.width
+  canvas.height = crop.height
+  const ctx = canvas.getContext('2d')!
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    crop.width,
+    crop.height
+  )
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (!blob) throw new Error('Canvas is empty')
+      resolve(new File([blob], fileName, { type: blob.type }))
+    }, 'image/jpeg', quality / 100)
+  })
+}
+
+export const AssetEditDialog = ({
+  isOpen,
+  onClose,
+  imageName,
+  onSave,
+  file
+}: AssetEditDialogProps) => {
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("1:1")
+  const [compressionLevel, setCompressionLevel] = useState([100])
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+
+  // Load image preview when file changes
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file)
+      setImageUrl(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [file])
+
+  // Reset crop and zoom when aspect ratio or image changes
+  useEffect(() => {
+    if (imageUrl) {
+      setZoom(1)
+      setCrop({ x: 0, y: 0 })
+    }
+  }, [selectedAspectRatio, imageUrl])
+
+  // Reset aspect ratio to default on clear selection
+  const handleClearAspect = () => setSelectedAspectRatio("1:1")
+
+  // Determine aspect for Cropper
+  const aspect =
+    selectedAspectRatio
+      ? aspectRatios.find((ar) => ar.ratio === selectedAspectRatio)?.value
+      : undefined
+
+  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
+
+  const handleSave = async () => {
+    if (!imageUrl || !croppedAreaPixels) return
+    const croppedFile = await getCroppedImg(
+      imageUrl,
+      croppedAreaPixels,
+      imageName || "cropped.jpg",
+      aspect,
+      compressionLevel[0]
+    )
+    onSave?.({ file: croppedFile })
     onClose()
   }
 
-  if (!isOpen) return null
+  if (!isOpen || !file) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -58,60 +134,26 @@ export const AssetEditDialog = ({ isOpen, onClose, imageName, onSave }: AssetEdi
               </DialogTitle>
             </DialogHeader>
 
-            {/* Image preview area with crop overlay */}
+            {/* Real image cropping */}
             <div className="flex-1 flex items-center justify-center">
-              <div className="relative w-96 h-96 bg-gray-200 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                <div className="text-gray-500 text-center">
-                  <div className="text-lg font-medium mb-2">Image Preview</div>
-                  <div className="text-sm">{imageName || "No image selected"}</div>
+              {imageUrl && (
+                <div className="relative w-96 h-96 bg-gray-200 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                  <Cropper
+                    image={imageUrl}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={aspect}
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={onCropComplete}
+                  />
                 </div>
-                
-                {/* Crop overlay with dashed lines */}
-                <div 
-                  className="absolute border-2 border-dashed border-blue-500 bg-blue-500/10"
-                  style={{
-                    left: `${cropArea.x}%`,
-                    top: `${cropArea.y}%`,
-                    width: `${cropArea.width}%`,
-                    height: `${cropArea.height}%`,
-                  }}
-                >
-                  {/* Corner handles */}
-                  <div className="absolute -top-1 -left-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"></div>
-                </div>
-
-                {/* Aspect ratio overlays */}
-                {aspectRatios.map((ar) => (
-                  <div
-                    key={ar.ratio}
-                    className={`absolute border border-gray-400 border-dashed opacity-30 ${
-                      selectedAspectRatio === ar.ratio ? 'border-blue-500 opacity-60' : ''
-                    }`}
-                    style={{
-                      left: '10%',
-                      top: '10%',
-                      width: '80%',
-                      height: `${80 / ar.value}%`,
-                      maxHeight: '80%'
-                    }}
-                  >
-                    <Badge 
-                      variant="secondary" 
-                      className="absolute -top-6 left-0 text-xs px-1 py-0"
-                    >
-                      {ar.label}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
+              )}
             </div>
           </div>
 
           {/* Right side - Controls */}
-          <div className="w-80 bg-white border-l border-gray-200 p-6 flex flex-col">
+          <div className="w-80 bg-white border-l border-gray-200 p-6 flex flex-col overflow-y-auto max-h-[80vh]">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold">Edit Options</h3>
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -131,20 +173,18 @@ export const AssetEditDialog = ({ isOpen, onClose, imageName, onSave }: AssetEdi
                     onClick={() => setSelectedAspectRatio(ar.ratio)}
                     className="text-xs"
                   >
-                    {ar.ratio}
+                    {ar.label}
                   </Button>
                 ))}
               </div>
-              {selectedAspectRatio && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedAspectRatio(null)}
-                  className="mt-2 text-xs w-full"
-                >
-                  Clear Selection
-                </Button>
-              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearAspect}
+                className="mt-2 text-xs w-full"
+              >
+                Clear Selection
+              </Button>
             </div>
 
             {/* Compression Slider */}
@@ -171,9 +211,9 @@ export const AssetEditDialog = ({ isOpen, onClose, imageName, onSave }: AssetEdi
             <div className="mb-6 p-3 bg-gray-50 rounded-lg">
               <h4 className="text-sm font-medium mb-2">File Info</h4>
               <div className="text-xs text-gray-600 space-y-1">
-                <div>Original: 1920x1080</div>
-                <div>Format: JPG</div>
-                <div>Size: ~2.5 MB</div>
+                <div>Original: {file && file.name}</div>
+                <div>Format: {file && file.type}</div>
+                <div>Size: ~{file && (file.size / 1024 / 1024).toFixed(2)} MB</div>
               </div>
             </div>
 
