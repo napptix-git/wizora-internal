@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import IPhoneFrame from '@/components/ui/iphone-frame';
 
 interface PreviewScreenProps {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
@@ -20,13 +20,15 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
           />
           <span className="ml-4 text-sm opacity-70">Preview Mode</span>
         </div>
-        <Button 
-          variant="outline" 
+       {onClose && (
+        <Button
+          variant="outline"
           className="border-white text-white hover:bg-white hover:text-[#4C36FF]"
           onClick={onClose}
         >
           Close Preview
         </Button>
+      )}
       </div>
       
       {/* Content Area */}

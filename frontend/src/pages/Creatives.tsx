@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useEffect } from "react"
+import axios from "axios"
 
 const Creatives = () => {
   const [isNewCreativeOpen, setIsNewCreativeOpen] = useState(false)
@@ -140,8 +141,12 @@ const handleCreateCreative = async () => {
   }
 
   const handleEditCreative = (id: number) => {
-    navigate("/dashboard/templates")
+    navigate("/dashboard/assets")
   }
+
+  const handlePreviewCreative = (id: number) => {
+  navigate(`/dashboard/PreviewScreen?creativeId=${id}`);
+};
 
   const handleCreativeClick = (id: number) => {
     // Navigate to assets page for existing creatives
@@ -293,7 +298,8 @@ const handleCreateCreative = async () => {
                         <div className="text-sm font-medium">{creative.clicks}</div>
                         <div className="text-sm font-medium">{creative.engagement}</div>
                         <div className="flex items-center space-x-2">
-                          <Button variant="ghost" size="sm" className="p-2">
+                          <Button variant="ghost" size="sm" className="p-2"
+                          onClick={() => handlePreviewCreative(creative.id)}>
                             <Eye className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button 

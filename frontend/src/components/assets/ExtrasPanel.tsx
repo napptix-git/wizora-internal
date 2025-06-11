@@ -7,8 +7,8 @@ interface ExtrasPanelProps {
 
 export const ExtrasPanel = ({ onImageUpload }: ExtrasPanelProps) => {
   const extraTypes = [
-    { title: "Overlay", type: "overlay" },
-    { title: "CTA", type: "cta" }
+    { title: "Overlay Logo Image", type: "Logo.png" },
+    { title: "Overlay CTA Image", type: "Overlay.png" },
   ];
 
   return (

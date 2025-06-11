@@ -5,6 +5,7 @@ import axios from "axios";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import assetUploadRoute from "./routes/assetuploadRoute.js";
 import { supabase } from "./lib/supabaseClient.js";
 
 // ✅ Route imports
@@ -15,6 +16,7 @@ import uploadRoute from "./routes/uploadRoute.js";
 
 dotenv.config();
 const app = express();
+app.use(express.json());
 
 // 📁 Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -44,6 +46,8 @@ app.use("/layouts", express.static(path.join(__dirname, "layouts")));
 app.use("/api/users", userRoutes);
 app.use("/api/layouts", layoutRoutes);
 app.use("/api", uploadRoute);
+app.use("/api", assetUploadRoute);
+
 
 // ✅ Proxy preview HTML from Supabase to allow relaxed CSP for iframe
 app.get("/api/preview/:id", async (req, res) => {

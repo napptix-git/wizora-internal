@@ -62,4 +62,7 @@ router.get("/assets/:layoutName", (req, res) => {
   }
 });
 
+// ✅ Serve manifest.json from layout folder
+
+
 export default router;

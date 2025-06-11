@@ -1,54 +1,95 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import { supabase } from "@/lib/supabaseClient"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { supabase } from "@/lib/supabaseClient";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 const Login = () => {
-  const [isSignUp, setIsSignUp] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const navigate = useNavigate()
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // ✅ Sync Google user after redirect only if ?from=google
+  useEffect(() => {
+    const checkGoogleSession = async () => {
+      const fromGoogle = new URLSearchParams(window.location.search).get("from") === "google";
+      const { data } = await supabase.auth.getSession();
+      const user = data?.session?.user;
+
+      if (fromGoogle && user) {
+        try {
+          await axios.post("http://localhost:3000/api/users/sync-user", {
+            auth_id: user.id,
+            email: user.email,
+          });
+          console.log("✅ Google user synced to DB");
+        } catch (err) {
+          console.error("❌ Failed to sync Google user:", err);
+        } finally {
+          navigate("/dashboard");
+        }
+      }
+    };
+
+    checkGoogleSession();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      let result
+      let result;
       if (isSignUp) {
-        result = await supabase.auth.signUp({ email, password })
+        result = await supabase.auth.signUp({ email, password });
       } else {
-        result = await supabase.auth.signInWithPassword({ email, password })
+        result = await supabase.auth.signInWithPassword({ email, password });
       }
 
       if (result.error) {
-        alert(result.error.message)
-        return
+        alert(result.error.message);
+        return;
       }
 
-      const user = result.data.user
+      const user = result.data.user;
       if (!user) {
-        alert("Authentication failed.")
-        return
+        alert("Authentication failed.");
+        return;
       }
 
-      // Call Express backend to sync user to custom users table
       await axios.post("http://localhost:3000/api/users/sync-user", {
         auth_id: user.id,
         email,
-      })
+      });
 
-      // Navigate to dashboard
-      navigate("/dashboard")
+      navigate("/dashboard");
     } catch (err) {
-      console.error("Login error:", err)
-      alert("Something went wrong.")
+      console.error("Login error:", err);
+      alert("Something went wrong.");
     }
+  };
+
+  const handleGoogleLogin = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${window.location.origin}/dashboard?from=google`,
+      queryParams: {
+        prompt: "select_account", // ✅ Forces Google to show the account chooser
+      },
+    },
+  });
+
+  if (error) {
+    console.error("Google login error:", error.message);
+    alert("Google login failed");
   }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 font-product bg-[#EDEBFF]">
@@ -90,10 +131,28 @@ const Login = () => {
               />
             </div>
 
-            <Button type="submit" className="w-full bg-gradient-wizora text-white py-2 rounded-lg">
+            <Button
+              type="submit"
+              className="w-full bg-gradient-wizora text-white py-2 rounded-lg"
+            >
               {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
           </form>
+
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-500 text-sm">or</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleGoogleLogin}
+            className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg"
+          >
+            Continue with Google
+          </Button>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
@@ -109,7 +168,7 @@ const Login = () => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

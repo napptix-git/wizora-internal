@@ -1,0 +1,31 @@
+{ "catch-to-collect":{
+  "replaceableAssets": [
+    { "title": "Cart Image", "type": "cart.png" },
+    { "title": "Item 1 Image", "type": "item1.png" },
+    { "title": "Item 2 Image", "type": "item2.png" },
+    { "title": "Item 3 Image", "type": "item3.png" },
+    { "title": "Item 4 Image", "type": "item4.png" },
+    { "title": "Item 5 Image", "type": "item5.png" },
+    { "title": "Item 6 Image", "type": "item6.png" },
+    { "title": "Item 7 Image", "type": "item7.png" },
+    { "title": "Item 8 Image", "type": "item8.png" },
+    { "title": "Overlay Logo Image", "type": "logo1.png" },
+    { "title": "Overlay CTA Image", "type": "overlay1.png" },
+    { "title": "Text Image", "type": "overlay2-1.png" },
+    { "title": "Shelf Image", "type": "shelf.png" },
+     { "title": "End Screen Image", "type": "bag.png" }
+  ]
+},
+"3D-Cube":{
+  "replaceableAssets": [
+    { "title": "Background Image", "type":"Background.png" },
+    { "title": "Front Image", "type": "Front Image.png" },
+    { "title": "Left Image", "type": "Left Image.png" },
+    { "title": "Right Image", "type": "Right Image.png" },
+    { "title": "Rear Image", "type": "Rear Image.png" },
+    { "title": "Overlay Logo Image", "type": "Logo.png" },
+    { "title": "Overlay CTA Image", "type": "Overlay.png" }
+   
+  ]
+}
+}
