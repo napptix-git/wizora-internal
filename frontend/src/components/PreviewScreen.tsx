@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import IPhoneFrame from '@/components/ui/iphone-frame';
 
@@ -8,6 +7,16 @@ interface PreviewScreenProps {
 }
 
 const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
+  const [showQR, setShowQR] = useState(false);
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const creativeId = sessionStorage.getItem("currentCreativeId");
+    if (creativeId) {
+      setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
+    }
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-[#EDEBFF] flex flex-col z-40">
       {/* Header Banner */}
@@ -20,10 +29,9 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
           />
           <span className="ml-4 text-sm opacity-70">Preview Mode</span>
         </div>
-       {onClose && (
-        <Button
-          variant="outline"
-          className="border-white text-white hover:bg-white hover:text-[#4C36FF]"
+        <Button 
+          variant="outline" 
+          className="border-white text-[#4c36ff] hover:bg-white hover:text-black"
           onClick={onClose}
         >
           Close Preview
@@ -32,42 +40,48 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
       </div>
       
       {/* Content Area */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex flex-col items-center justify-center p-8">
         <IPhoneFrame>
-          {/* Ad Preview Content */}
-          <div className="flex-1 bg-red-500 relative overflow-hidden">
-            <div className="absolute inset-0 flex flex-col">
-              {/* Christmas decorations */}
-              <div className="absolute top-4 left-4 text-white text-2xl">❄️</div>
-              <div className="absolute top-4 right-4 text-white text-2xl">🎄</div>
-              
-              {/* Content */}
-              <div className="flex items-center justify-center h-full">
-                <div className="bg-yellow-400 w-64 h-64 flex items-center justify-center">
-                  <div className="text-6xl">🙌</div>
-                </div>
+          <div className="flex-1 bg-white relative overflow-hidden">
+            {iframeUrl ? (
+              <iframe
+                src={iframeUrl}
+                className="w-full h-full border-none"
+                title="Creative Preview"
+                allow="fullscreen"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400">
+                No creative preview available.
               </div>
-              
-              {/* CTA Button */}
-              <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                <Button className="bg-cyan-400 text-blue-900 hover:bg-cyan-500 px-6 py-2 rounded-sm font-medium">
-                  SE HER HVORDAN
-                </Button>
-              </div>
-            </div>
+            )}
           </div>
         </IPhoneFrame>
         
-        {/* QR Code (example) */}
-        <div className="ml-20 flex flex-col items-center">
-          <div className="w-40 h-40 bg-white p-2 border border-gray-200 rounded-md">
-            {/* Placeholder for QR Code */}
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-              QR Code
+        {/* Button to show QR code */}
+        <Button 
+          className="mt-8"
+          variant="outline"
+          onClick={() => setShowQR(true)}
+        >
+          Show QR Code
+        </Button>
+
+        {/* QR Code Popup */}
+        {showQR && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+            <div className="bg-white rounded-lg p-6 shadow-lg flex flex-col items-center">
+              <div className="w-40 h-40 bg-gray-200 flex items-center justify-center mb-4 border border-gray-300 rounded">
+                {/* Replace this with your actual QR code component/image */}
+                QR Code
+              </div>
+              <p className="text-gray-600 text-sm mb-4">Scan this to view on your phone</p>
+              <Button 
+                className='bg-[white] text-[#4c36ff] border border-2px hover:bg-[#4c36ff] hover:text-white'
+                onClick={() => setShowQR(false)}>Close</Button>
             </div>
           </div>
-          <p className="mt-4 text-gray-600 text-sm">Scan this to view on your phone</p>
-        </div>
+        )}
       </div>
     </div>
   );

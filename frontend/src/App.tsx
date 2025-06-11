@@ -18,9 +18,8 @@ import Assets from "./pages/Assets";
 import Repository from "./pages/Repository";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import PreviewScreen from "@/components/PreviewScreen";
-
+import ProtectedRoute from "@/components/ProtectedRoute"; // 👈 import the wrapper
+import PageNotFound from "./components/404";
 
 const queryClient = new QueryClient();
 
@@ -64,24 +63,24 @@ const App = () => {
                     <div className="min-h-screen flex w-full bg-[#EDEBFF]">
                       <AppSidebar />
                       <SessionMonitor />
-                      <main className="flex-1">
-                        <div className="md:hidden p-4">
-                          <SidebarTrigger />
-                        </div>
-                        <Routes>
-                          <Route path="/" element={<Navigate to="/dashboard/creatives" replace />} />
-                          <Route path="/creatives" element={<Creatives />} />
-                          <Route path="/templates" element={<Templates />} />
-                          <Route path="/assets" element={<Assets />} />
-                          <Route path="/repository" element={<Repository />} />
-                          <Route path="*" element={<NotFound />} />
-                        </Routes>
-                      </main>
-                    </div>
-                  </SidebarProvider>
-                </ProtectedRoute>
-              }
-            />
+                    <main className="flex-1">
+                      <div className="md:hidden p-4">
+                        <SidebarTrigger />
+                      </div>
+                      <Routes>
+                        <Route path="/" element={<Navigate to="/dashboard/creatives" replace />} />
+                        <Route path="/404" element={<PageNotFound />} />
+                        <Route path="/creatives" element={<Creatives />} />
+                        <Route path="/templates" element={<Templates />} />
+                        <Route path="/assets" element={<Assets />} />
+                        <Route path="/repository" element={<Repository />} />
+                      </Routes>
+                    </main>
+                  </div>
+                </SidebarProvider>
+              </ProtectedRoute>
+            }
+          />
 
             {/* 🔁 Catch all other routes */}
             <Route path="*" element={<Navigate to="/login" replace />} />

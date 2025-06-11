@@ -14,16 +14,21 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useEffect } from "react"
-import axios from "axios"
+import PageNotFound from "@/components/404"
 
 const Creatives = () => {
   const [isNewCreativeOpen, setIsNewCreativeOpen] = useState(false)
   const [creativeName, setCreativeName] = useState("")
-const [creatives, setCreatives] = useState<any[]>([])
+  const [creatives, setCreatives] = useState<any[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
   const navigate = useNavigate()
   const { toast } = useToast()
+  
+
+  const handleSettingsClick = () => {
+    navigate("/dashboard/404")
+  }
 
 useEffect(() => {
   const fetchCreatives = async () => {
@@ -310,7 +315,11 @@ const handleCreateCreative = async () => {
                           >
                             <Edit className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
-                          <Button variant="ghost" size="sm" className="p-2">
+                          <Button 
+                            variant="ghost"
+                            size="sm"
+                            className="p-2"
+                            onClick={handleSettingsClick}>
                             <Settings className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button variant="ghost" size="sm" className="p-2">
