@@ -84,13 +84,11 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
             xl:w-[240px]
             aspect-[9/16]
             rounded-2xl
-            border border-gray-200
-            shadow-md
             bg-transparent
           "
         >
           <IPhoneFrame size="small">
-            <div className={`w-full h-full ${previewBackground} relative`}>
+            <div className={`w-full h-full bg-[#4c36ff] relative`}>
               {/* Preview Wrapper for iframe or fallback components */}
               <div className="w-full h-full preview-wrapper">
                 
@@ -109,8 +107,8 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
 
 
 ) : (
-  <div className="text-center p-2 text-gray-500 text-xs">
-    No preview available.
+  <div className="flex items-center justify-center w-full h-full text-white text-xl">
+    Select a Layout.
   </div>
 )}
               </div>

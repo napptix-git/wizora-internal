@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import IPhoneFrame from '@/components/ui/iphone-frame';
 
@@ -8,6 +8,14 @@ interface PreviewScreenProps {
 
 const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   const [showQR, setShowQR] = useState(false);
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const creativeId = sessionStorage.getItem("currentCreativeId");
+    if (creativeId) {
+      setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
+    }
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-[#EDEBFF] flex flex-col z-40">
@@ -33,27 +41,19 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
       {/* Content Area */}
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <IPhoneFrame>
-          {/* Ad Preview Content */}
-          <div className="flex-1 bg-red-500 relative overflow-hidden">
-            <div className="absolute inset-0 flex flex-col">
-              {/* Christmas decorations */}
-              <div className="absolute top-4 left-4 text-white text-2xl">❄️</div>
-              <div className="absolute top-4 right-4 text-white text-2xl">🎄</div>
-              
-              {/* Content */}
-              <div className="flex items-center justify-center h-full">
-                <div className="bg-yellow-400 w-64 h-64 flex items-center justify-center">
-                  <div className="text-6xl">🙌</div>
-                </div>
+          <div className="flex-1 bg-white relative overflow-hidden">
+            {iframeUrl ? (
+              <iframe
+                src={iframeUrl}
+                className="w-full h-full border-none"
+                title="Creative Preview"
+                allow="fullscreen"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400">
+                No creative preview available.
               </div>
-              
-              {/* CTA Button */}
-              <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                <Button className="bg-cyan-400 text-blue-900 hover:bg-cyan-500 px-6 py-2 rounded-sm font-medium">
-                  SE HER HVORDAN
-                </Button>
-              </div>
-            </div>
+            )}
           </div>
         </IPhoneFrame>
         
