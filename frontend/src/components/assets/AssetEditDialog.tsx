@@ -30,17 +30,17 @@ async function getCroppedImg(
   aspect: number | undefined,
   quality: number
 ): Promise<File> {
-  const image = new window.Image()
-  image.src = imageSrc
-  await new Promise((resolve) => { image.onload = resolve })
+  const image = new window.Image();
+  image.src = imageSrc;
+  await new Promise((resolve) => { image.onload = resolve });
 
-  const canvas = document.createElement('canvas')
-  const scaleX = image.naturalWidth / image.width
-  const scaleY = image.naturalHeight / image.height
+  const canvas = document.createElement('canvas');
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
 
-  canvas.width = crop.width
-  canvas.height = crop.height
-  const ctx = canvas.getContext('2d')!
+  canvas.width = crop.width;
+  canvas.height = crop.height;
+  const ctx = canvas.getContext('2d')!;
 
   ctx.drawImage(
     image,
@@ -52,15 +52,17 @@ async function getCroppedImg(
     0,
     crop.width,
     crop.height
-  )
+  );
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
-      if (!blob) throw new Error('Canvas is empty')
-      resolve(new File([blob], fileName, { type: blob.type }))
-    }, 'image/jpeg', quality / 100)
-  })
+      if (!blob) throw new Error('Canvas is empty');
+      const pngName = fileName.replace(/\.(jpg|jpeg|webp|gif)$/i, ".png"); // ✅ Force .png
+      resolve(new File([blob], pngName, { type: "image/png" })); // ✅ Force PNG blob
+    }, "image/png", quality / 100);
+  });
 }
+
 
 export const AssetEditDialog = ({
   isOpen,
@@ -106,18 +108,31 @@ export const AssetEditDialog = ({
     setCroppedAreaPixels(croppedAreaPixels)
   }, [])
 
-  const handleSave = async () => {
-    if (!imageUrl || !croppedAreaPixels) return
-    const croppedFile = await getCroppedImg(
+ const handleSave = async () => {
+  if (!imageUrl) return;
+
+  try {
+    // Only try cropping if crop area is set
+    if (croppedAreaPixels) {
+      const croppedFile = await getCroppedImg(
       imageUrl,
       croppedAreaPixels,
-      imageName || "cropped.jpg",
+      imageName || "cropped.png",
       aspect,
       compressionLevel[0]
-    )
-    onSave?.({ file: croppedFile })
-    onClose()
+      );
+      onSave?.({ file: croppedFile });
+    } else if (file) {
+      // 🔁 Fallback: no crop? just return original file
+      onSave?.({ file });
+    }
+  } catch (err) {
+    console.warn("⚠️ Cropping failed, using original file.", err);
+    if (file) onSave?.({ file });
+  } finally {
+    onClose();
   }
+};
 
   if (!isOpen || !file) return null
 

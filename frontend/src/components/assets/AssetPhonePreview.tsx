@@ -22,12 +22,13 @@ export const AssetPhonePreview = forwardRef<AssetPhonePreviewRef, AssetPhonePrev
     const [showPreviewScreen, setShowPreviewScreen] = useState(false);
 
     const generateUrl = () => {
-      const creativeId = sessionStorage.getItem("currentCreativeId");
+      const creativeId = sessionStorage.getItem("activeCreativeId");
+      const timestamp = Date.now();
       if (!creativeId) {
         console.warn("❌ No activeCreativeId found in sessionStorage");
         return;
       }
-      const url = `http://localhost:3000/api/preview/${creativeId}?t=${Date.now()}}`;
+      const url = `http://localhost:3000/api/preview/${creativeId}?t=${timestamp}`;
       setIframeUrl(url);
       console.log("🔄 Preview URL updated:", url);
     };

@@ -11,7 +11,7 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    const creativeId = sessionStorage.getItem("currentCreativeId");
+    const creativeId = sessionStorage.getItem("activeCreativeId");
     if (creativeId) {
       setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
     }
@@ -36,11 +36,11 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
         >
           Close Preview
         </Button>
-      )}
+      
       </div>
       
       {/* Content Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8">
+      <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-y">
         <IPhoneFrame>
           <div className="flex-1 bg-white relative overflow-hidden">
             {iframeUrl ? (

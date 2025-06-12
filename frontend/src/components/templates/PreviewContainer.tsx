@@ -63,7 +63,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
     }
 
     // Step 4: Store for preview and navigate
-    sessionStorage.setItem("currentCreativeId", creativeId);
+    
     sessionStorage.setItem("activeCreativeId", creativeId);
     navigate("/dashboard/assets");
   } catch (err) {

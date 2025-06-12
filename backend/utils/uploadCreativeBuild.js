@@ -8,14 +8,16 @@ dotenv.config();
 export async function uploadCreativeBuild(layoutName, creativeId) {
   const layoutPath = path.join(process.cwd(), "layouts", layoutName);
   const files = fs.readdirSync(layoutPath);
-  const timestamp = Date.now(); // Used for cache busting
+  const timestamp = Date.now();
   const supabaseAssetUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/creatives/${creativeId}/`;
 
+  // ✅ Upload layout files (excluding /assets)
   for (const file of files) {
     const filePath = path.join(layoutPath, file);
     if (fs.lstatSync(filePath).isDirectory()) continue;
+    if (file === "assets") continue;
 
-    let content = fs.readFileSync(filePath, "utf-8");
+    let content = await fs.promises.readFile(filePath, "utf-8");
     const contentType = mime.getType(filePath);
 
     if (file === "index.html") {
@@ -23,7 +25,6 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
         /<head>/i,
         `<head><base href="${supabaseAssetUrl}?t=${timestamp}">`
       );
-
       content = content
         .replace(/href=["']\.\/style\.css["']/g, `href="${supabaseAssetUrl}style.css?t=${timestamp}"`)
         .replace(/src=["']\.\/script\.js["']/g, `src="${supabaseAssetUrl}script.js?t=${timestamp}"`);
@@ -44,7 +45,6 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
       );
     }
 
-    // 🧹 Delete before upload to force cache busting
     await supabase.storage.from("creatives").remove([`${creativeId}/${file}`]);
 
     const buffer = Buffer.from(content, "utf-8");
@@ -62,30 +62,33 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
     else console.log(`✅ Uploaded: ${file}`);
   }
 
+  // ✅ Upload asset files as-is (no .png conversion)
   const assetsPath = path.join(layoutPath, "assets");
   if (fs.existsSync(assetsPath)) {
     const assetFiles = fs.readdirSync(assetsPath);
-    for (const file of assetFiles) {
-      const filePath = path.join(assetsPath, file);
-      const fileBuffer = fs.readFileSync(filePath);
-      const contentType = mime.getType(filePath);
 
-      // 🧹 Delete existing asset before upload
-      await supabase.storage.from("creatives").remove([`${creativeId}/assets/${file}`]);
+    await Promise.all(
+      assetFiles.map(async (file) => {
+        const filePath = path.join(assetsPath, file);
+        const fileBuffer = await fs.promises.readFile(filePath);
+        const contentType = mime.getType(filePath);
 
-      const { error } = await supabase.storage.from("creatives").upload(
-        `${creativeId}/assets/${file}`,
-        fileBuffer,
-        {
-          contentType,
-          upsert: true,
-          cacheControl: "no-store"
-        }
-      );
+        await supabase.storage.from("creatives").remove([`${creativeId}/assets/${file}`]);
 
-      if (error) console.error(`❌ Failed to upload asset ${file}:`, error.message);
-      else console.log(`✅ Uploaded asset: ${file}`);
-    }
+        const { error } = await supabase.storage.from("creatives").upload(
+          `${creativeId}/assets/${file}`,
+          fileBuffer,
+          {
+            contentType,
+            upsert: true,
+            cacheControl: "no-store"
+          }
+        );
+
+        if (error) console.error(`❌ Failed to upload asset ${file}:`, error.message);
+        else console.log(`✅ Uploaded asset: ${file}`);
+      })
+    );
   } else {
     console.warn("⚠️ No assets folder found in layout");
   }
