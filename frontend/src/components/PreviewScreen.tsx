@@ -36,7 +36,7 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
         >
           Close Preview
         </Button>
-      )}
+      
       </div>
       
       {/* Content Area */}

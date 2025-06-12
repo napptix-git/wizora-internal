@@ -20,6 +20,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute"; // 👈 import the wrapper
 import PageNotFound from "./components/404";
+import PreviewScreen from "./components/PreviewScreen";
 
 const queryClient = new QueryClient();
 
