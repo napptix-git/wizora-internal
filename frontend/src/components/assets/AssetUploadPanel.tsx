@@ -64,6 +64,44 @@ export const AssetUploadPanel = ({ onImageUpload }: AssetUploadPanelProps) => {
 
     fetchManifest();
   }, []);
+const handleUpload = async (type: string, file?: File) => {
+  if (!file) return;
+
+  // ✅ 1. Basic validations
+  if (!file.type.startsWith("image/")) {
+    alert("Only image files are allowed.");
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Max file size is 5MB.");
+    return;
+  }
+
+  const creativeId = sessionStorage.getItem("activeCreativeId");
+  if (!creativeId) {
+    alert("No active creative ID found");
+    return;
+  }
+
+  // ✅ 2. Prepare and send to backend
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", type);
+  formData.append("creativeId", creativeId);
+
+  const response = await fetch("http://localhost:3000/api/upload-asset", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    console.error("❌ Upload failed:", err.error);
+    alert("Upload failed: " + err.error);
+  } else {
+    console.log("✅ Upload successful for", type);
+  }
+};
 
   if (error) {
     return (
@@ -81,7 +119,7 @@ export const AssetUploadPanel = ({ onImageUpload }: AssetUploadPanelProps) => {
             key={asset.type}
             title={asset.title}
             type={asset.type}
-            onUpload={onImageUpload}
+            onUpload={handleUpload}
           />
         ))}
       </div>

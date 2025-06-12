@@ -45,7 +45,7 @@ useEffect(() => {
   
    useEffect(() => {
     const saveSelectedLayout = async () => {
-      const creativeId = sessionStorage.getItem("currentCreativeId")
+      const creativeId = sessionStorage.getItem("activeCreativeId")
       const selected = templates.find(t => t.id === selectedTemplate)
 
       if (creativeId && selected) {

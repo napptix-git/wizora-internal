@@ -51,8 +51,9 @@ useEffect(() => {
         variant: "destructive"
       })
     } else {
-      const mapped = data.map((item, index) => ({
-  id: index + 1,
+      const mapped = data.map((item) => ({
+  id: item.id, // Supabase internal row ID
+  creative_id: item.creative_id, // ✅ Add this field
   name: item.creative_name || "-",
   lastEdit: item.updated_at ? new Date(item.updated_at).toLocaleString() : "-",
   layout: item.layout || "-",
@@ -60,7 +61,7 @@ useEffect(() => {
   clicks: item.clicks !== null ? `${item.clicks.toFixed(1)}%` : "-",
   engagement: item.engagement !== null ? `${item.engagement.toFixed(1)}%` : "-",
   status: item.is_active ? "active" : "paused"
-}))
+}));
 
 setCreatives(mapped)
 
@@ -145,12 +146,14 @@ const handleCreateCreative = async () => {
     }))
   }
 
-  const handleEditCreative = (id: number) => {
-    navigate("/dashboard/assets")
-  }
+ const handleEditCreative = (creativeId: string) => {
+  sessionStorage.setItem("activeCreativeId", creativeId);
+  navigate("/dashboard/assets");
+};
 
-  const handlePreviewCreative = (id: number) => {
-  navigate(`/dashboard/PreviewScreen?creativeId=${id}`);
+  const handlePreviewCreative = (creativeId: string) => {
+  sessionStorage.setItem("activeCreativeId", creativeId);
+  navigate("/dashboard/PreviewScreen");
 };
 
   const handleCreativeClick = (id: number) => {
@@ -304,15 +307,14 @@ const handleCreateCreative = async () => {
                         <div className="text-sm font-medium">{creative.engagement}</div>
                         <div className="flex items-center space-x-2">
                           <Button variant="ghost" size="sm" className="p-2"
-                          onClick={() => handlePreviewCreative(creative.id)}>
+                          onClick={() => handlePreviewCreative(creative.creative_id)}>
                             <Eye className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button 
                             variant="ghost" 
                             size="sm" 
                             className="p-2"
-                            onClick={() => handleEditCreative(creative.id)}
-                          >
+                            onClick={() => handleEditCreative(creative.creative_id)}                          >
                             <Edit className="h-4 w-4 text-gray-600 ml-[-9px]" />
                           </Button>
                           <Button 

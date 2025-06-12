@@ -1,42 +1,57 @@
 import fs from "fs";
 import path from "path";
 import mime from "mime";
+import sharp from "sharp";
 import { supabase } from "../lib/supabaseClient.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-/**
- * Upload a single image file to Supabase under creatives/{creativeId}/assets/
- * @param {string} imagePath - Path to the image file
- * @param {string} assetType - Logical name (e.g. "hero", "bg", "cta")
- * @param {string} creativeId - ID of the creative
- */
-export async function uploadSingleCreativeAsset(imagePath, assetType, creativeId) {
-  if (!fs.existsSync(imagePath)) {
-    console.error(`❌ File not found: ${imagePath}`);
-    return;
-  }
+export async function uploadSingleCreativeAsset(imagePath, assetType, creativeId, layoutPath) {
+  try {
+    if (!fs.existsSync(imagePath)) {
+      console.error(`❌ File not found: ${imagePath}`);
+      return;
+    }
 
-  const ext = path.extname(imagePath).slice(1); // jpg, png, etc.
-  const fileName = `${assetType}.${ext}`;
-  const contentType = mime.getType(imagePath);
-  const fileBuffer = fs.readFileSync(imagePath);
-  const uploadPath = `${creativeId}/assets/${fileName}`;
+    const originalExt = path.extname(imagePath).slice(1).toLowerCase();
+    const isVideo = ["mp4", "webm", "ogg"].includes(originalExt);
+    const isImage = ["jpg", "jpeg", "webp", "gif", "png"].includes(originalExt);
 
-  // 🧹 Force-delete old file to bust CDN cache
-  await supabase.storage.from("creatives").remove([uploadPath]);
+    // ✅ Force .png for all images
+    const fileName = isImage
+      ? `${assetType}.png`
+      : `${assetType}.${originalExt}`;
 
-  const { error } = await supabase.storage
-    .from("creatives")
-    .upload(uploadPath, fileBuffer, {
-      contentType,
-      upsert: true,
-      cacheControl: "no-store" // ✅ tells CDN not to cache it
-    });
+    const uploadPath = `${creativeId}/assets/${fileName}`;
+    const contentType = isImage
+      ? "image/png"
+      : mime.getType(originalExt);
 
-  if (error) {
-    console.error(`❌ Failed to upload ${fileName}:`, error.message);
-  } else {
-    console.log(`✅ Uploaded: creatives/${uploadPath}`);
+    let buffer;
+
+    if (isImage) {
+      buffer = await sharp(imagePath)
+        .png({ quality: 80, compressionLevel: 9 })
+        .toBuffer();
+    } else {
+      buffer = fs.readFileSync(imagePath);
+    }
+
+    const { error } = await supabase.storage
+      .from("creatives")
+      .upload(uploadPath, buffer, {
+        contentType,
+        upsert: true,
+        cacheControl: "no-store",
+      });
+
+    if (error) {
+      console.error(`❌ Upload failed: ${fileName}`, error.message);
+    } else {
+      console.log(`✅ Uploaded asset as: ${uploadPath}`);
+    }
+
+  } catch (err) {
+    console.error(`❌ Error during upload:`, err.message);
   }
 }

@@ -62,12 +62,14 @@ export const AssetUploadItem = ({ title, onUpload, type }: AssetUploadItemProps)
     e.preventDefault();
   };
 
-  const handleCancel = () => {
-    setUploadedFile(null)
-    setPreviewUrl(null)
-    setIsEditDialogOpen(false)
-    onUpload(type, undefined)
+ const handleCancel = () => {
+  if (uploadedFile) {
+    // ⚠️ Auto-upload the original if dialog closed without saving
+    onUpload(type, uploadedFile);
   }
+  setIsEditDialogOpen(false);
+};
+
 
   // When the user saves the edited image
   const handleSaveEdit = (editedImage: { file?: File }) => {
