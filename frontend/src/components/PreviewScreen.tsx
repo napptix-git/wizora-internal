@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import IPhoneFrame from '@/components/ui/iphone-frame';
+import QRCode from "react-qr-code"; // <-- Add this import
 
 interface PreviewScreenProps {
   onClose?: () => void;
@@ -9,13 +10,21 @@ interface PreviewScreenProps {
 const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   const [showQR, setShowQR] = useState(false);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const [creativeId, setCreativeId] = useState<string | null>(null);
 
   useEffect(() => {
-    const creativeId = sessionStorage.getItem("currentCreativeId");
-    if (creativeId) {
-      setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
+    const id = sessionStorage.getItem("currentCreativeId");
+    setCreativeId(id);
+    if (id) {
+      setIframeUrl(`http://localhost:3000/api/preview/${id}`);
     }
   }, []);
+
+  // The URL you want the QR code to point to:
+  const localIp = "192.168.0.105"; // <-- your local IP here
+  const qrUrl = creativeId
+    ? `http://${localIp}:3000/api/preview/${creativeId}`
+    : `http://${localIp}:3000/`;
 
   return (
     <div className="fixed inset-0 bg-[#EDEBFF] flex flex-col z-40">
@@ -36,13 +45,12 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
         >
           Close Preview
         </Button>
-      
       </div>
       
       {/* Content Area */}
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <IPhoneFrame>
-          <div className="flex-1 bg-white relative overflow-hidden">
+          <div className="w-full h-full bg-white relative overflow-hidden">
             {iframeUrl ? (
               <iframe
                 src={iframeUrl}
@@ -72,8 +80,8 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
             <div className="bg-white rounded-lg p-6 shadow-lg flex flex-col items-center">
               <div className="w-40 h-40 bg-gray-200 flex items-center justify-center mb-4 border border-gray-300 rounded">
-                {/* Replace this with your actual QR code component/image */}
-                QR Code
+                {/* Render the QR code here */}
+                <QRCode value={qrUrl} size={150} />
               </div>
               <p className="text-gray-600 text-sm mb-4">Scan this to view on your phone</p>
               <Button 
