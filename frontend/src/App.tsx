@@ -9,7 +9,7 @@ import { SessionMonitor } from "@/components/SessionMonitor";
 import { useEffect } from "react";
 import axios from "axios";
 import { supabase } from "@/lib/supabaseClient";
-import PreviewScreen from "@/components/PreviewScreen";
+
 
 
 import Index from "./pages/Index";

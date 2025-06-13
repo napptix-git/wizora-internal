@@ -15,6 +15,7 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   useEffect(() => {
     const creativeId = sessionStorage.getItem("activeCreativeId");
     if (creativeId) {
+      setCreativeId(creativeId); // <-- Add this line
       setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
     }
   }, []);
@@ -47,23 +48,25 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
       </div>
       
       {/* Content Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-y">
-        <IPhoneFrame>
-          <div className="w-full h-full bg-white relative overflow-hidden">
-            {iframeUrl ? (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-y-auto">
+        <IPhoneFrame size="small">
+        <div className="w-[300px] h-[534px] bg-white border border-gray-300 shadow-md relative overflow-hidden">
+          {iframeUrl ? (
+            <div className="absolute top-[0px] left-[-2px] origin-top-left scale-[0.6] w-[400px] h-[720px]">
               <iframe
                 src={iframeUrl}
-                className="w-full h-full border-none"
+                className="w-full h-full absolute top-[0px] left-[-2px] border-none"
                 title="Creative Preview"
                 allow="fullscreen"
               />
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-400">
-                No creative preview available.
-              </div>
-            )}
-          </div>
-        </IPhoneFrame>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-400">
+              No creative preview available.
+            </div>
+          )}
+        </div>
+      </IPhoneFrame>
         
         {/* Button to show QR code */}
         <Button 
@@ -77,8 +80,8 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
         {/* QR Code Popup */}
         {showQR && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
-            <div className="bg-white rounded-lg p-6 shadow-lg flex flex-col items-center">
-              <div className="w-40 h-40 bg-gray-200 flex items-center justify-center mb-4 border border-gray-300 rounded">
+            <div className="bg-white rounded-lg p-4 shadow-lg flex flex-col items-center">
+              <div className="w-20 h-20 bg-gray-200 flex items-center justify-center mb-4 border border-gray-300 rounded">
                 {/* Render the QR code here */}
                 <QRCode value={qrUrl} size={150} />
               </div>
