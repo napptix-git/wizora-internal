@@ -9,8 +9,11 @@ import { SessionMonitor } from "@/components/SessionMonitor";
 import { useEffect } from "react";
 import axios from "axios";
 import { supabase } from "@/lib/supabaseClient";
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 
 import Index from "./pages/Index";
 import Creatives from "./pages/Creatives";

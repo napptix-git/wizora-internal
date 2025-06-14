@@ -6,6 +6,7 @@ import layoutManifests from "@/data/layoutManifests.json";
 
 interface AssetUploadPanelProps {
   onImageUpload: (type: string) => void;
+  onUploadSuccess: () => void;
 }
 
 interface AssetDefinition {
@@ -14,7 +15,8 @@ interface AssetDefinition {
   file?: string;
 }
 
-export const AssetUploadPanel = ({ onImageUpload }: AssetUploadPanelProps) => {
+export const AssetUploadPanel = ({ onImageUpload, onUploadSuccess }: AssetUploadPanelProps) => {
+
   const [assets, setAssets] = useState<AssetDefinition[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -100,6 +102,7 @@ const handleUpload = async (type: string, file?: File) => {
     alert("Upload failed: " + err.error);
   } else {
     console.log("✅ Upload successful for", type);
+    onUploadSuccess();
   }
 };
 

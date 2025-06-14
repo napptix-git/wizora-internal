@@ -6,23 +6,32 @@ import { AssetUploadPanel } from "./AssetUploadPanel";
 import { ExtrasPanel } from "./ExtrasPanel";
 import { AssetPhonePreview, AssetPhonePreviewRef } from "./AssetPhonePreview";
 import { Repository } from "./Repository";
+import { Ref } from "react";
 
 interface AssetContentProps {
   onImageUpload: (type: string) => void;
   onPreview: () => void;
+  onUploadSuccess: () => void;
+  previewRef: Ref<AssetPhonePreviewRef>;
 }
 
-export const AssetContent: React.FC<AssetContentProps> = ({ onImageUpload, onPreview }) => {
+export const AssetContent: React.FC<AssetContentProps> = ({
+  onImageUpload,
+  onPreview,
+  onUploadSuccess,
+  previewRef, // ✅ use this from props
+}) => {
   const [activeTab, setActiveTab] = useState("assets");
   const [isRepositoryOpen, setIsRepositoryOpen] = useState(false);
 
-  const previewRef = useRef<AssetPhonePreviewRef>(null);
-
   const handleImageUpload = (type: string) => {
-    onImageUpload(type); // delegate to parent
-    previewRef.current?.refreshPreview();
+    onImageUpload(type);
+    // ✅ use the ref passed from props
+    if (previewRef && typeof previewRef !== "function" && previewRef.current) {
+      previewRef.current.refreshPreview();
+    }
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden h-full relative">
       {/* Repository button in top right */}
@@ -63,7 +72,7 @@ export const AssetContent: React.FC<AssetContentProps> = ({ onImageUpload, onPre
             </TabsList>
 
             <TabsContent value="assets" className="mt-0 h-full">
-              <AssetUploadPanel onImageUpload={handleImageUpload} />
+              <AssetUploadPanel onImageUpload={onImageUpload} onUploadSuccess={onUploadSuccess} />
             </TabsContent>
 
             <TabsContent value="extras" className="mt-0 pr-4 h-full">
@@ -78,7 +87,7 @@ export const AssetContent: React.FC<AssetContentProps> = ({ onImageUpload, onPre
             isRepositoryOpen ? "mr-80" : ""
           }`}
         >
-          <AssetPhonePreview ref={previewRef} />
+          <AssetPhonePreview onPreview={onPreview} ref={previewRef} />
         </div>
 
         {/* Repository sliding tray */}

@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import assetUploadRoute from "./routes/assetuploadRoute.js";
 import { supabase } from "./lib/supabaseClient.js";
 
+
 // ✅ Route imports
 import userRoutes from "./routes/userRoutes.js";
 import layoutRoutes from "./routes/layoutRoutes.js";
@@ -57,15 +58,30 @@ app.get("/api/preview/:id", async (req, res) => {
   try {
     const response = await axios.get(supabaseUrl, { responseType: "text" });
 
-    
-    // 🔓 Set relaxed CSP so iframe loads CSS, JS, images
+    // ✅ Set no-cache headers to prevent iframe from using stale content
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+
+    // 🔓 Allow iframe to load assets via CSP
     res.setHeader("Content-Type", "text/html");
     res.setHeader(
       "Content-Security-Policy",
       "default-src * data: blob: 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; img-src * data:; font-src * data:;"
     );
 
-    res.send(response.data);
+    let html = response.data;
+const timestamp = Date.now();
+
+// Inject cache-busting query param into all relevant assets
+html = html.replace(/(src|href)="([^"]+\.(js|css|png|jpg|jpeg|gif))"/g, (match, attr, url) => {
+  const separator = url.includes('?') ? '&' : '?';
+  return `${attr}="${url}${separator}t=${timestamp}"`;
+});
+
+res.send(html);
+
   } catch (err) {
     console.error("❌ Preview fetch error:", err.message);
     res.status(500).send("Failed to load creative preview.");

@@ -17,44 +17,55 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
     if (fs.lstatSync(filePath).isDirectory()) continue;
     if (file === "assets") continue;
 
-    let content = await fs.promises.readFile(filePath, "utf-8");
     const contentType = mime.getType(filePath);
+    let buffer;
 
-    if (file === "index.html") {
-      content = content.replace(
-        /<head>/i,
-        `<head><base href="${supabaseAssetUrl}?t=${timestamp}">`
-      );
-      content = content
-        .replace(/href=["']\.\/style\.css["']/g, `href="${supabaseAssetUrl}style.css?t=${timestamp}"`)
-        .replace(/src=["']\.\/script\.js["']/g, `src="${supabaseAssetUrl}script.js?t=${timestamp}"`);
+    if ([".html", ".js", ".css", ".json", ".txt"].includes(path.extname(filePath))) {
+      let content = await fs.promises.readFile(filePath, "utf-8");
+
+      // Inject <base> for relative paths + timestamped core assets
+      if (file === "index.html") {
+        content = content.replace(
+          /<head>/i,
+          `<head><base href="${supabaseAssetUrl}?t=${timestamp}">`
+        );
+        content = content
+          .replace(/href=["']\.?\/style\.css["']/g, `href="${supabaseAssetUrl}style.css?t=${timestamp}"`)
+          .replace(/src=["']\.?\/script\.js["']/g, `src="${supabaseAssetUrl}script.js?t=${timestamp}"`);
+      }
+
+      // 💥 Patch asset references in HTML, JS, and CSS
+      if (["index.html", "script.js", "style.css"].includes(file)) {
+        // Pattern 1: src or href to /assets/*
+        content = content.replace(
+          /(?:src|href)=["']\/?assets\/(.*?\.(png|jpe?g|svg|webp|mp4|ogg|gif|wav|webm|woff2?|ttf|otf|json))["']/gi,
+          (match, fileName) => {
+            const attr = match.startsWith("href") ? "href" : "src";
+            return `${attr}="${supabaseAssetUrl}assets/${fileName}?t=${timestamp}"`;
+          }
+        );
+        // Pattern 2: JS/CSS asset path as string './assets/foo.png'
+        content = content.replace(
+          /['"`]\.?\/assets\/(.*?\.(png|jpe?g|svg|webp|mp4|ogg|gif|wav|webm|woff2?|ttf|otf|json))['"`]/gi,
+          (_, asset) => `"${supabaseAssetUrl}assets/${asset}?t=${timestamp}"`
+        );
+      }
+
+      buffer = Buffer.from(content, "utf-8");
+    } else {
+      buffer = await fs.promises.readFile(filePath);
     }
 
-    if (["index.html", "script.js", "style.css"].includes(file)) {
-      content = content.replace(
-        /(?:src|href)=["']\/?assets\/(.*?\.(png|jpe?g|svg|webp|mp4|ogg|gif|wav|webm|woff2?|ttf|otf|json))["']/gi,
-        (match, fileName) => {
-          const attr = match.startsWith("href") ? "href" : "src";
-          return `${attr}="${supabaseAssetUrl}assets/${fileName}?t=${timestamp}"`;
-        }
-      );
-
-      content = content.replace(
-        /['"`]\.\/assets\/(.*?\.(png|jpe?g|svg|webp|mp4|ogg|gif|wav|webm|woff2?|ttf|otf|json))['"`]/gi,
-        (_, asset) => `"${supabaseAssetUrl}assets/${asset}?t=${timestamp}"`
-      );
-    }
-
+    // Remove old version
     await supabase.storage.from("creatives").remove([`${creativeId}/${file}`]);
 
-    const buffer = Buffer.from(content, "utf-8");
     const { error } = await supabase.storage.from("creatives").upload(
       `${creativeId}/${file}`,
       buffer,
       {
         contentType,
         upsert: true,
-        cacheControl: "no-store"
+        cacheControl: "no-store",
       }
     );
 
@@ -62,7 +73,7 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
     else console.log(`✅ Uploaded: ${file}`);
   }
 
-  // ✅ Upload asset files as-is (no .png conversion)
+  // ✅ Upload asset files
   const assetsPath = path.join(layoutPath, "assets");
   if (fs.existsSync(assetsPath)) {
     const assetFiles = fs.readdirSync(assetsPath);
@@ -81,7 +92,7 @@ export async function uploadCreativeBuild(layoutName, creativeId) {
           {
             contentType,
             upsert: true,
-            cacheControl: "no-store"
+            cacheControl: "no-store",
           }
         );
 

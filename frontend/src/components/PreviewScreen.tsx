@@ -21,7 +21,7 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   }, []);
 
   // The URL you want the QR code to point to:
-  const localIp = "192.168.0.105"; // <-- your local IP here
+  const localIp = "192.168.29.64"; // <-- your local IP here
   const qrUrl = creativeId
     ? `http://${localIp}:3000/api/preview/${creativeId}`
     : `http://${localIp}:3000/`;
