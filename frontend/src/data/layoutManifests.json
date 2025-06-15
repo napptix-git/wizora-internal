@@ -1,4 +1,4 @@
-{ "catch-to-collect":{
+{ "Catch-to-collect":{
   "replaceableAssets": [
     { "title": "Cart Image", "type": "cart.png" },
     { "title": "Item 1 Image", "type": "item1.png" },

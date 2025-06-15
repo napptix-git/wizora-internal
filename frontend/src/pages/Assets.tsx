@@ -30,7 +30,7 @@ const Assets = () => {
     setTimeout(() => {
       setIsPreviewLoading(false);
       setShowPreview(true);
-    }, 2000);
+    }, 3500);
   };
 
   const handleImageUpload = (type: string) => {
