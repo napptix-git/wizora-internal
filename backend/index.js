@@ -28,7 +28,7 @@ app.use(
   cors({
     origin: [
       "https://wizora-frontend.onrender.com", // ✅ Render frontend
-      "https://wizora.napptix.com"            // ✅ GoDaddy subdomain (if set)
+      "https://wizora-app.napptix.com"            // ✅ GoDaddy subdomain (if set)
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
