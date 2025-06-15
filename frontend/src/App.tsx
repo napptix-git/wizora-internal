@@ -9,11 +9,8 @@ import { SessionMonitor } from "@/components/SessionMonitor";
 import { useEffect } from "react";
 import axios from "axios";
 import { supabase } from "@/lib/supabaseClient";
-<<<<<<< Updated upstream
 
 
-=======
->>>>>>> Stashed changes
 
 import Index from "./pages/Index";
 import Creatives from "./pages/Creatives";
@@ -36,10 +33,10 @@ const App = () => {
 
       if (user) {
         try {
-          await axios.post("http://localhost:3000/api/users/sync-user", {
-            auth_id: user.id,
-            email: user.email,
-          });
+            await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
+              auth_id: user.id,
+              email: user.email,
+            });
           console.log("✅ Synced Google user globally");
         } catch (err) {
           console.error("❌ Global sync error:", err);

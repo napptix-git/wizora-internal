@@ -23,10 +23,10 @@ const Login = () => {
 
       if (fromGoogle && user) {
         try {
-          await axios.post("http://localhost:3000/api/users/sync-user", {
-            auth_id: user.id,
-            email: user.email,
-          });
+            await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
+              auth_id: user.id,
+              email: user.email,
+            });
           console.log("✅ Google user synced to DB");
         } catch (err) {
           console.error("❌ Failed to sync Google user:", err);
@@ -61,7 +61,7 @@ const Login = () => {
         return;
       }
 
-      await axios.post("http://localhost:3000/api/users/sync-user", {
+      await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
         auth_id: user.id,
         email,
       });

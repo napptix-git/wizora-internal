@@ -91,7 +91,7 @@ const handleUpload = async (type: string, file?: File) => {
   formData.append("type", type);
   formData.append("creativeId", creativeId);
 
-  const response = await fetch("http://localhost:3000/api/upload-asset", {
+  const response = await fetch("https://wizora-backend.onrender.com/api/upload-asset", {
     method: "POST",
     body: formData,
   });

@@ -26,10 +26,15 @@ const __dirname = path.dirname(__filename);
 // ✅ CORS configuration
 app.use(
   cors({
-    origin: "http://localhost:8080", // Update this as needed
+    origin: [
+      "https://wizora-frontend.onrender.com", // ✅ Render frontend
+      "https://wizora.napptix.com"            // ✅ GoDaddy subdomain (if set)
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 
 // ✅ Allow iframe embedding + relaxed headers
 app.use((req, res, next) => {

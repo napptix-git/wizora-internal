@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import IPhoneFrame from '@/components/ui/iphone-frame';
 import QRCode from "react-qr-code"; // <-- Add this import
+import { useNavigate } from 'react-router-dom'; // <-- Add this import
 
 interface PreviewScreenProps {
   onClose?: () => void;
@@ -11,20 +12,30 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   const [showQR, setShowQR] = useState(false);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [creativeId, setCreativeId] = useState<string | null>(null);
+  const navigate = useNavigate(); // <-- Add this line
 
   useEffect(() => {
     const creativeId = sessionStorage.getItem("activeCreativeId");
     if (creativeId) {
-      setCreativeId(creativeId); // <-- Add this line
-      setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
+      setCreativeId(creativeId);
+      setIframeUrl(`https://wizora-backend.onrender.com/api/preview/${creativeId}`);
     }
   }, []);
 
   // The URL you want the QR code to point to:
   const localIp = "192.168.29.64"; // <-- your local IP here
   const qrUrl = creativeId
-    ? `http://${localIp}:3000/api/preview/${creativeId}`
-    : `http://${localIp}:3000/`;
+    ? `https://wizora-backend.onrender.com/api/preview/${creativeId}`
+    : `https://wizora-backend.onrender.com/`;
+
+  // Handler for close button
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate('/dashboard/creatives'); // <-- Navigate to Creatives page
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-[#EDEBFF] flex flex-col z-40">
@@ -41,7 +52,7 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
         <Button 
           variant="outline" 
           className="border-white text-[#4c36ff] hover:bg-white hover:text-black"
-          onClick={onClose}
+          onClick={handleClose} // <-- Use new handler
         >
           Close Preview
         </Button>

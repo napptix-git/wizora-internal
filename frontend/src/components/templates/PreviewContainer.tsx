@@ -30,7 +30,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
 
   try {
     // Step 1: Upload layout to Supabase Storage
-    const response = await fetch(`http://localhost:3000/api/${layoutName}/${creativeRowId}`, {
+    const response = await fetch(`https://wizora-backend.onrender.com/api/${layoutName}/${creativeRowId}`, {
       method: "POST",
     });
 
@@ -97,7 +97,7 @@ export const PreviewContainer: React.FC<PreviewContainerProps> = ({
 <div className="absolute top-[0px] left-0 origin-top-left scale-[0.55] w-[181.5%] h-[172.67%]">
 
     <iframe
-      src={`http://localhost:3000/layouts/${currentTemplate.name}/index.html`}
+      src={`https://wizora-backend.onrender.com/layouts/${currentTemplate.name}/index.html`}
       className="w-full h-full border-none"
       allow="fullscreen"
       title="Creative Preview"
