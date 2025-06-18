@@ -34,7 +34,12 @@ app.use(
     credentials: true,
   })
 );
-
+// app.use(
+//   cors({
+//     origin: "http://localhost:8080", // Update this as needed
+//     credentials: true,
+//   })
+// );
 
 // ✅ Allow iframe embedding + relaxed headers
 app.use((req, res, next) => {

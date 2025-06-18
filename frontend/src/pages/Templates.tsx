@@ -20,6 +20,7 @@ const Templates = () => {
 useEffect(() => {
   const fetchLayouts = async () => {
     try {
+      // const res = await fetch("http://localhost:3000/api/layouts");
       const res = await fetch("https://wizora-backend.onrender.com/api/layouts");
       const data = await res.json();
       if (Array.isArray(data.layouts)) {

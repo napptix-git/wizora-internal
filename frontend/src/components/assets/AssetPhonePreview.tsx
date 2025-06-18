@@ -28,6 +28,7 @@ export const AssetPhonePreview = forwardRef<AssetPhonePreviewRef, AssetPhonePrev
         console.warn("❌ No activeCreativeId found in sessionStorage");
         return;
       }
+      // const url = `http://localhost:3000/api/preview/${creativeId}?t=${timestamp}`;
       const url = `https://wizora-backend.onrender.com/api/preview/${creativeId}?t=${timestamp}`;
       setIframeUrl(url);
       console.log("🔄 Preview URL updated:", url);

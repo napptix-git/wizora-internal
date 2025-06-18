@@ -33,10 +33,11 @@ const App = () => {
 
       if (user) {
         try {
-            await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
-              auth_id: user.id,
-              email: user.email,
-            });
+          //  await axios.post("http://localhost:3000/api/users/sync-user", {
+          await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
+            auth_id: user.id,
+            email: user.email,
+          });
           console.log("✅ Synced Google user globally");
         } catch (err) {
           console.error("❌ Global sync error:", err);

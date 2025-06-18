@@ -18,12 +18,18 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
     const creativeId = sessionStorage.getItem("activeCreativeId");
     if (creativeId) {
       setCreativeId(creativeId);
+      // setIframeUrl(`http://localhost:3000/api/preview/${creativeId}`);
       setIframeUrl(`https://wizora-backend.onrender.com/api/preview/${creativeId}`);
     }
   }, []);
 
   // The URL you want the QR code to point to:
-  const localIp = "192.168.29.64"; // <-- your local IP here
+  // const localIp = "192.168.29.64";
+  //  const qrUrl = creativeId
+  //   ? `http://${localIp}:3000/api/preview/${creativeId}`
+  //   : `http://${localIp}:3000/`;// <-- your local IP here
+
+  // For production, use the deployed URL
   const qrUrl = creativeId
     ? `https://wizora-backend.onrender.com/api/preview/${creativeId}`
     : `https://wizora-backend.onrender.com/`;
@@ -40,12 +46,13 @@ const PreviewScreen: React.FC<PreviewScreenProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 bg-[#EDEBFF] flex flex-col z-40">
       {/* Header Banner */}
-      <div className="bg-[#4C36FF] text-white p-4 flex items-center justify-between">
+      <div className="bg-[#4C36FF] text-white p-2 flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src="/lovable-uploads/c05f9ec3-7bfd-4382-ae4b-194d12966e19.png" 
+            src="/lovable-uploads/2.png" 
             alt="WIZORA Logo" 
-            className="h-8" 
+            className="h-full mt-2 object-contain" 
+            style={{ width: 'auto',maxHeight: '60px' }}
           />
           <span className="ml-4 text-sm opacity-70">Preview Mode</span>
         </div>

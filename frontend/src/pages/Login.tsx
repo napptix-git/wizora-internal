@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { supabase } from "@/lib/supabaseClient";
+  import { useNavigate } from "react-router-dom";
+  import axios from "axios";
+  import { supabase } from "@/lib/supabaseClient";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+  import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+  import { Input } from "@/components/ui/input";
+  import { Label } from "@/components/ui/label";
+  import { Button } from "@/components/ui/button";
 
-const Login = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const Login = () => {
+    // const [isSignUp, setIsSignUp] = useState(false);
+    const [isSignUp] = useState(false); // Sign up disabled
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
   // ✅ Sync Google user after redirect only if ?from=google
   useEffect(() => {
@@ -23,9 +24,9 @@ const Login = () => {
 
       if (fromGoogle && user) {
         try {
-            await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
-              auth_id: user.id,
-              email: user.email,
+            await axios.post(`https://wizora-backend.onrender.com/api/users/sync-user`, {
+            auth_id: user.id,
+            email: user.email,
             });
           console.log("✅ Google user synced to DB");
         } catch (err) {
@@ -61,7 +62,7 @@ const Login = () => {
         return;
       }
 
-      await axios.post("https://wizora-backend.onrender.com/api/users/sync-user", {
+      await axios.post(`https://wizora-backend.onrender.com/api/users/sync-user`, {
         auth_id: user.id,
         email,
       });
@@ -96,79 +97,83 @@ const Login = () => {
       <Card className="w-full max-w-md shadow-2xl bg-white rounded-lg">
         <CardHeader className="text-center pb-6">
           <img
-            src="/lovable-uploads/70d07a7b-2745-48c7-a3ac-550181ac6682.png"
+            src="/lovable-uploads/1.png"
             alt="Logo"
-            className="h-12 mx-auto mb-4"
+            className="h-12 mx-auto mb-4 object-contain scale-[1.8] mt-4"
+            style={{ transformOrigin: "center" }}
           />
           <CardTitle className="text-2xl font-medium text-gray-800">
-            {isSignUp ? "Sign Up" : "Sign In"}
+            {/* {isSignUp ? "Sign Up" : "Sign In"} */}
+            Sign In
           </CardTitle>
         </CardHeader>
 
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-gradient-wizora text-white py-2 rounded-lg"
+              >
+                {/* {isSignUp ? "Sign Up" : "Sign In"} */}
+                Sign In
+              </Button>
+            </form>
+
+            <div className="flex items-center my-4">
+              <hr className="flex-grow border-gray-300" />
+              <span className="mx-2 text-gray-500 text-sm">or</span>
+              <hr className="flex-grow border-gray-300" />
             </div>
 
             <Button
-              type="submit"
-              className="w-full bg-gradient-wizora text-white py-2 rounded-lg"
+              type="button"
+              variant="outline"
+              onClick={handleGoogleLogin}
+              className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg"
             >
-              {isSignUp ? "Sign Up" : "Sign In"}
+              Continue with Google
             </Button>
-          </form>
 
-          <div className="flex items-center my-4">
-            <hr className="flex-grow border-gray-300" />
-            <span className="mx-2 text-gray-500 text-sm">or</span>
-            <hr className="flex-grow border-gray-300" />
-          </div>
+            <div className="mt-6 text-center">
+              {/* <p className="text-sm text-gray-600"> */}
+                {/* {isSignUp ? "Already have an account?" : "Don't have an account?"} {" "}
+                <button
+                  onClick={() => setIsSignUp(!isSignUp)}
+                  className="text-wizora-purple font-medium"
+                >
+                  {isSignUp ? "Sign In" : "Sign Up"}
+                </button> */}
+                {/* Only existing users can sign in.
+              </p> */}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
 
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleGoogleLogin}
-            className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg"
-          >
-            Continue with Google
-          </Button>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-              <button
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="text-wizora-purple font-medium"
-              >
-                {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
-
-export default Login;
+  export default Login;
